@@ -1,5 +1,5 @@
 package org.example.model;
 
 public enum CharacterType {
-    WARRIOR, GOD;
+    ANIMAL, GIANT, GOD, HERO, HUMAN, MONTSTER, TITAN
 }

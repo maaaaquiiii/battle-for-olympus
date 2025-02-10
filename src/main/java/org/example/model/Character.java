@@ -1,11 +1,17 @@
 package org.example.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Character {
     private String name;
     private int health;
     private int attack;
     private int defense;
     private Weapon weapon;
+    private CharacterType type;
+    private Map<CharacterType, Integer> attackBonuses;
+    private Map<CharacterType, Integer> defenseBonuses;
 
     protected Character(Builder<?> characterBuilder) {
         this.name = characterBuilder.name;
@@ -13,6 +19,7 @@ public abstract class Character {
         this.attack = characterBuilder.attack;
         this.defense = characterBuilder.defense;
         this.weapon = characterBuilder.weapon;
+        this.type = characterBuilder.type;
     }
 
     public String getName() {
@@ -35,7 +42,35 @@ public abstract class Character {
         return weapon;
     }
 
+    public CharacterType getType() {
+        return type;
+    }
+
+    public Map<CharacterType, Integer> getAttackBonuses() {
+        return attackBonuses;
+    }
+
+    public Map<CharacterType, Integer> getDefenseBonuses() {
+        return defenseBonuses;
+    }
+
     public abstract int calculateDamage(Character enemy);
+
+    public void addAttackBonus(CharacterType defeatedType, int bonus) {
+        attackBonuses.put(defeatedType, attackBonuses.getOrDefault(defeatedType, 0) + bonus);
+    }
+
+    public void addDefenseBonus(CharacterType defeatedType, int bonus) {
+        defenseBonuses.put(defeatedType, defenseBonuses.getOrDefault(defeatedType, 0) + bonus);
+    }
+
+    public int getModifiedAttack(CharacterType opponentType) {
+        return attack + weapon.getAttackBoost() + attackBonuses.getOrDefault(opponentType, 0);
+    }
+
+    public int getModifiedDefense(CharacterType opponentType) {
+        return defense + weapon.getDefenseModifier() + defenseBonuses.getOrDefault(opponentType, 0);
+    }
 
     public boolean isAlive() {
         return this.health > 0;
@@ -58,6 +93,9 @@ public abstract class Character {
         private int attack;
         private int defense;
         private Weapon weapon;
+        private CharacterType type;
+        private Map<CharacterType, Integer> attackBonuses;
+        private Map<CharacterType, Integer> defenseBonuses;
 
 
         public T name(String name) {
@@ -85,7 +123,22 @@ public abstract class Character {
             return self();
         }
 
-        protected abstract  T self();
+        public T type(CharacterType type) {
+            this.type = type;
+            return self();
+        }
+
+        public T attackBonuses(Map<CharacterType, Integer> attackBonuses) {
+            this.attackBonuses = attackBonuses;
+            return self();
+        }
+
+        public T defenseBonuses(Map<CharacterType, Integer> defenseBonuses) {
+            this.defenseBonuses = defenseBonuses;
+            return self();
+        }
+
+        protected abstract T self();
 
         public abstract Character build();
     }
