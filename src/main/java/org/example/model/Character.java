@@ -6,15 +6,13 @@ public abstract class Character {
     private int attack;
     private int defense;
     private Weapon weapon;
-    private Attack attackStrategy;
 
-    private Character(Builder characterBuilder) {
+    protected Character(Builder<?> characterBuilder) {
         this.name = characterBuilder.name;
         this.health = characterBuilder.health;
         this.attack = characterBuilder.attack;
         this.defense = characterBuilder.defense;
         this.weapon = characterBuilder.weapon;
-        this.attackStrategy = characterBuilder.attackStrategy;
     }
 
     public String getName() {
@@ -37,13 +35,10 @@ public abstract class Character {
         return weapon;
     }
 
-    public Attack getAttackStrategy() {
-        return attackStrategy;
-    }
+    public abstract int calculateDamage(Character enemy);
 
-    public void attack(Character enemy) {
-        int damage = attackStrategy.executeAttack(this.attack + weapon.getAttackBoost(), enemy.defense);
-        enemy.receiveDamage(damage);
+    public boolean isAlive() {
+        return this.health > 0;
     }
 
     public void receiveDamage(int damage) {
@@ -51,73 +46,50 @@ public abstract class Character {
         if (this.health < 0) this.health = 0;
     }
 
-    public boolean isAlive() {
-        return this.health > 0;
-    }
-
-    public String getStatus() {
-        return name + " - Health: " + health + " | Attack: " + attack + " | Defense: " + defense;
-    }
-
     @Override
     public String toString() {
-        return String.format("Name: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\tattack: %s\n",
-                getName(), getHealth(), getAttack(), getDefense(), getWeapon(), getAttackStrategy());
+        return String.format("Name: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\n",
+                getName(), getHealth(), getAttack(), getDefense(), getWeapon());
+    }
+
+    public static abstract class Builder<T extends Builder<T>> {
+        private String name;
+        private int health;
+        private int attack;
+        private int defense;
+        private Weapon weapon;
+
+
+        public T name(String name) {
+            this.name = name;
+            return self();
+        }
+
+        public T health(int health) {
+            this.health = health;
+            return self();
+        }
+
+        public T attack(int attack) {
+            this.attack = attack;
+            return self();
+        }
+
+        public T defense(int defense) {
+            this.defense = defense;
+            return self();
+        }
+
+        public T weapon(Weapon weapon) {
+            this.weapon = weapon;
+            return self();
+        }
+
+        protected abstract  T self();
+
+        public abstract Character build();
     }
 }
 
-public static class Builder {
-    private String name;
-    private CharacterType type;
-    private int health = 100;
-    private int attack = 20;
-    private int defense = 10;
-    private Weapon weapon = new Weapon("Basic Weapon", 5, 2);
-    private Attack attackStrategy = new PhysicalAttack();
 
-    public Builder() {
 
-    }
-
-    public Builder name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Builder type(CharacterType type) {
-        this.type = type;
-        return this;
-    }
-
-    public Builder health(int health) {
-        this.health = health;
-        return this;
-    }
-
-    public Builder attack(int attack) {
-        this.attack = attack;
-        return this;
-    }
-
-    public Builder defense(int defense) {
-        this.defense = defense;
-        return this;
-    }
-
-    public Builder weapon(Weapon weapon) {
-        this.weapon = weapon;
-        return this;
-    }
-
-    public Builder attackStrategy(Attack attackStrategy) {
-        this.attackStrategy = attackStrategy;
-        return this;
-    }
-
-    public Character build() {
-        return switch (type) {
-            case WARRIOR -> new Warrior(name, health, attack, defense, weapon, attackStrategy);
-            case GOD -> new God(name, health + 20, attack + 5, defense + 5, weapon, attackStrategy);
-        };
-    }
-}
