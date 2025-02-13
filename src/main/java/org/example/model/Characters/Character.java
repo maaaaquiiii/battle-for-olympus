@@ -1,23 +1,27 @@
-package org.example.model;
+package org.example.model.Characters;
+
+import org.example.model.Potion;
+import org.example.model.Skill;
+import org.example.model.Weapon;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Character {
+public abstract class Character {
     private String name;
-    private CharacterType type;
+    private String type;
     private int health;
     private int attack;
     private int defense;
-    private Map<CharacterType, Integer> victories;
+    private Map<String, Integer> victories;
     private Set<Skill> skills;
     private Set<Potion> potions;
 
     private Weapon weapon;
 
-    private Character(Builder characterBuilder) {
+    protected Character(Builder<?> characterBuilder) {
         this.name = characterBuilder.name;
         this.type = characterBuilder.type;
         this.health = characterBuilder.health;
@@ -45,10 +49,10 @@ public class Character {
         } else {
             this.defense += potion.getDefenseBonus();
         }
-        this.potions.remove(potion); // Usar una sola vez
+        this.potions.remove(potion);
     }
 
-    public void addVictory(CharacterType opponentType) {
+    public void addVictory(String opponentType) {
         this.victories.put(opponentType, this.victories.getOrDefault(opponentType, 0) + 1);
     }
 
@@ -84,7 +88,7 @@ public class Character {
         return name;
     }
 
-    public CharacterType getType() {
+    public String getType() {
         return type;
     }
 
@@ -100,7 +104,7 @@ public class Character {
         return defense;
     }
 
-    public Map<CharacterType, Integer> getVictories() {
+    public Map<String, Integer> getVictories() {
         return victories;
     }
 
@@ -122,14 +126,6 @@ public class Character {
         this.defense += weapon.getDefenseBonus();
     }
 
-    public int getTotalAttack() {
-        return this.attack + (weapon != null ? weapon.getAttackBonus() : 0);
-    }
-
-    public int getTotalDefense() {
-        return this.defense + (weapon != null ? weapon.getDefenseBonus() : 0);
-    }
-
     @Override
     public String toString() {
         return String.format("Character: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\n",
@@ -137,40 +133,39 @@ public class Character {
     }
 
 
-    public static class Builder {
+    public static abstract class Builder<T extends Builder<T>> {
         private String name;
-        private CharacterType type;
+        private String type;
         private int health;
         private int attack;
         private int defense;
 
-        public Builder name(String name) {
+        public T name(String name) {
             this.name = name;
-            return this;
+            return self();
         }
 
-        public Builder type(CharacterType type) {
+        public T characterType(String type) {
             this.type = type;
-            return this;
+            return self();
         }
 
-        public Builder health(int health) {
+        public T health(int health) {
             this.health = health;
-            return this;
+            return self();
         }
 
-        public Builder attack(int attack) {
+        public T attack(int attack) {
             this.attack = attack;
-            return this;
+            return self();
         }
 
-        public Builder defense(int defense) {
+        public T defense(int defense) {
             this.defense = defense;
-            return this;
+            return self();
         }
 
-        public Character build() {
-            return new Character(this);
-        }
+        protected abstract T self();
+        public abstract Character build();
     }
 }

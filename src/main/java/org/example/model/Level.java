@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.model.Characters.Character;
+
 public class Level {
     private int level;
     private int experience;

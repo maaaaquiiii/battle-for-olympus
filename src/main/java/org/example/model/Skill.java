@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.model.Characters.Character;
+
 public class Skill {
     private String name;
     private String description;
@@ -11,7 +13,7 @@ public class Skill {
         this.bonus = bonus;
     }
 
-    public void apply(Character attacker, Character target) {
+    public void apply(org.example.model.Characters.Character attacker, Character target) {
         attacker.increaseAttack(bonus);
     }
 

@@ -1,7 +1,8 @@
 package org.example.controller;
 
+import org.example.model.Characters.Character;
+import org.example.model.CharacterFactory;
 import org.example.model.*;
-import org.example.model.Character;
 import org.example.view.CharacterView;
 import org.example.view.MenuView;
 
@@ -9,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.System.exit;
+
 public class GameController {
+    private CharacterFactory characterFactory;
     private CharacterView characterView;
     private MenuView menuView;
     private List<Character> mythologicalAnimals;
@@ -31,30 +35,36 @@ public class GameController {
     }
 
     private void createPredefinedCharacters() {
-        mythologicalAnimals.add(new Character.Builder().name("Centaur").type(CharacterType.MYTHOLOGICAL_ANIMALS).health(60).attack(10).defense(5).build());
-        mythologicalAnimals.add(new Character.Builder().name("Griffin").type(CharacterType.MYTHOLOGICAL_ANIMALS).health(80).attack(20).defense(15).build());
+        mythologicalAnimals.add(createCharacter("Centaur", "animal", 2000, 10, 15));
+        mythologicalAnimals.add(createCharacter("Cerberus", "animal", 2500, 15, 10));
+        mythologicalAnimals.add(createCharacter("Chimera", "animal", 2750, 10, 15));
+        mythologicalAnimals.add(createCharacter("Griffin", "animal", 3000, 15, 10));
+        mythologicalAnimals.add(createCharacter("Harpy", "animal", 2750, 20, 10));
+        mythologicalAnimals.add(createCharacter("Minotaur", "animal", 2500, 15, 15));
 
-        // Crear dioses
-        gods.add(new Character.Builder().name("Zeus").type(CharacterType.GOD).health(100).attack(50).defense(40).build());
-        gods.add(new Character.Builder().name("Hera").type(CharacterType.GOD).health(80).attack(40).defense(30).build());
+        heroes.add(createCharacter("Aquiles", "hero", 3250, 20, 15));
+        heroes.add(createCharacter("Heracles", "hero", 3500, 20, 20));
+        heroes.add(createCharacter("Perseus", "hero", 3750, 20, 10));
+        heroes.add(createCharacter("Theseus", "hero", 4000, 30, 20));
 
-        // Crear héroes
-        heroes.add(new Character.Builder().name("Hercules").type(CharacterType.HERO).health(120).attack(60).defense(50).build());
-        heroes.add(new Character.Builder().name("Perseus").type(CharacterType.HERO).health(100).attack(50).defense(40).build());
+        gods.add(createCharacter("Apollo", "god", 5000, 30, 20));
+        gods.add(createCharacter("Ares", "god", 5500, 35, 20));
+        gods.add(createCharacter("Artemis", "god", 5750, 35, 25));
+        gods.add(createCharacter("Athena", "god", 5500, 30, 15));
+        gods.add(createCharacter("Hades", "god", 5500, 35, 25));
+        gods.add(createCharacter("Poseidon", "god", 5500, 35, 25));
+        gods.add(createCharacter("Zeus", "god", 6000, 40, 20));
 
-        // Crear titanes
-        titans.add(new Character.Builder().name("Cronos").type(CharacterType.TITAN).health(200).attack(80).defense(70).build());
-        titans.add(new Character.Builder().name("Atlas").type(CharacterType.TITAN).health(180).attack(70).defense(60).build());
+        titans.add(createCharacter("Cronus", "titan", 10000, 40, 30));
+        titans.add(createCharacter("Hyperion", "titan", 7500, 50, 30));
+        titans.add(createCharacter("Oceanus", "titan", 8500, 45, 35));
+        titans.add(createCharacter("Rhea", "titan", 9500, 50, 30));
+        titans.add(createCharacter("Thea", "titan", 9000, 45, 35));
+        titans.add(createCharacter("Themis", "titan", 8000, 45, 35));
     }
 
-    public Character createCharacter(String name, CharacterType type, int health, int attack, int defense) {
-        return new Character.Builder()
-                .name(name)
-                .type(type)
-                .health(health)
-                .attack(attack)
-                .defense(defense)
-                .build();
+    public Character createCharacter(String name, String type, int health, int attack, int defense) {
+        return CharacterFactory.createCharacter(name, type, health, attack, defense);
     }
 
     public Character performCombat(Character player1, Character player2) {
@@ -88,31 +98,70 @@ public class GameController {
         winner.addVictory(loser.getType());
     }
 
-    public void restoreHealth(Character player, int healthBonus) {
-        player.restoreHealth(healthBonus);
+//    public void restoreHealth(Character player, int healthBonus) {
+//        player.restoreHealth(healthBonus);
+//    }
+//
+//    public void increaseAttack(Character player, int attackBonus) {
+//        player.increaseAttack(attackBonus);
+//    }
+//
+//    public void increaseDefense(Character player, int defenseBonus) {
+//        player.increaseDefense(defenseBonus);
+//    }
+
+    private Character selectCharacter(int option) {
+        List<Character> selectedList;
+        Character selectedCharacter = null;
+
+        switch (option) {
+            case 1 -> {
+                selectedList = mythologicalAnimals;
+                selectedList.forEach(character -> characterView.displayCharactersByName(character));
+                menuView.displayMessage("Select a mythological animal:");
+                int characterOption = menuView.getUserInt();
+                selectedCharacter = selectedList.get(characterOption);
+            }
+            case 2 -> {
+                selectedList = gods;
+                selectedList.forEach(character -> characterView.displayCharactersByName(character));
+                menuView.displayMessage("Select a mythological animal:");
+                int characterOption = menuView.getUserInt();
+                selectedCharacter = selectedList.get(characterOption);
+            }
+            case 3 -> {
+                selectedList = heroes;
+                selectedList.forEach(character -> characterView.displayCharactersByName(character));
+                menuView.displayMessage("Select a mythological animal:");
+                int characterOption = menuView.getUserInt();
+                selectedCharacter = selectedList.get(characterOption);
+            }
+            case 4 -> {
+                selectedList = titans;
+                selectedList.forEach(character -> characterView.displayCharactersByName(character));
+                menuView.displayMessage("Select a mythological animal:");
+                int characterOption = menuView.getUserInt();
+                selectedCharacter = selectedList.get(characterOption);
+            }
+            default -> throw new IllegalArgumentException("Invalid Option");
+        }
+
+        return selectedCharacter;
     }
 
-    public void increaseAttack(Character player, int attackBonus) {
-        player.increaseAttack(attackBonus);
-    }
-
-    public void increaseDefense(Character player, int defenseBonus) {
-        player.increaseDefense(defenseBonus);
-    }
-
-    public Character selectCharacter() {
+    public Character selectCharacterRandomly() {
         Random random = new Random();
-        int listIndex = random.nextInt(4);  // Aleatorio entre 0 y 3 para seleccionar una lista
+        int listIndex = random.nextInt(4);
         List<Character> selectedList;
 
         switch (listIndex) {
-            case 1 -> selectedList = gods;
-            case 2 -> selectedList = heroes;
-            case 3 -> selectedList = titans;
+            case 2 -> selectedList = gods;
+            case 3 -> selectedList = heroes;
+            case 4 -> selectedList = titans;
             default -> selectedList = mythologicalAnimals;
         }
 
-        return selectedList.get(random.nextInt(selectedList.size())); // Selecciona un personaje aleatorio de la lista seleccionada
+        return selectedList.get(random.nextInt(selectedList.size()));
     }
 
     private void viewStatistics() {
@@ -123,47 +172,103 @@ public class GameController {
         }
     }
 
+    private void viewSkills() {
+        if (selectedCharacters.isEmpty()) {
+            characterView.displayMessage("No characters selected yet.");
+        } else {
+            selectedCharacters.forEach(character -> characterView.viewCharacterSkills(character));
+        }
+    }
+
+    private void viewPotions() {
+        if (selectedCharacters.isEmpty()) {
+            characterView.displayMessage("No characters selected yet.");
+        } else {
+            selectedCharacters.forEach(character -> characterView.viewCharacterPotions(character));
+        }
+    }
+
+
     public void showMenu() {
-        characterView.displayMessage("Choose an option:");
-        characterView.displayMessage("1. Select a character");
-        characterView.displayMessage("2. Fight against selected character");
-        characterView.displayMessage("3. Fight against random character");
-        characterView.displayMessage("4. View statistics");
-        characterView.displayMessage("5. Exit");
-
-        int choice = menuView.getUserInput(); // Suponemos que hay un método para capturar la opción del usuario
-
+        menuView.displayMenu();
+        int choice = menuView.getUserInt();
         switch (choice) {
-            case 1:
-                Character selected = selectCharacter();
+            case 1 -> {
+                characterView.displayMessage("Introduce the name");
+                String name = menuView.getUserString();
+                characterView.displayMessage("Introduce the type (hero/god/titan/mythologicalAnimal)");
+                String type = menuView.getUserString();
+                characterView.displayMessage("Introduce the health");
+                int health = menuView.getUserInt();
+                characterView.displayMessage("Introduce the attack");
+                int attack = menuView.getUserInt();
+                characterView.displayMessage("Introduce the defense");
+                int defense = menuView.getUserInt();
+                selectedCharacters.add(createCharacter(name, type, health, attack, defense));
+            }
+            case 2 -> {
+                menuView.displayLists();
+                Character selected = selectCharacter(menuView.getUserInt());
                 selectedCharacters.add(selected);
                 characterView.displayMessage("You selected: " + selected.getName());
-                break;
-            case 2:
-                if (selectedCharacters.size() > 0) {
-                    Character opponent = selectCharacter();
-                    performCombat(selectedCharacters.get(0), opponent);
-                } else {
-                    characterView.displayMessage("You need to select a character first.");
-                }
-                break;
-            case 3:
-                Character randomOpponent = selectCharacter();
+            }
+            case 3 -> {
+                Character randomCharacter = selectCharacterRandomly();
+                selectedCharacters.add(randomCharacter);
+                characterView.displayMessage("You selected: " + randomCharacter.getName());
+            }
+            case 4 -> {
+                Character randomOpponent = selectCharacterRandomly();
                 if (selectedCharacters.size() > 0) {
                     performCombat(selectedCharacters.get(0), randomOpponent);
                 } else {
                     characterView.displayMessage("You need to select a character first.");
                 }
-                break;
-            case 4:
+            }
+            case 5 -> {
                 viewStatistics();
-                break;
-            case 5:
+            }
+            case 6 -> {
                 characterView.displayMessage("Exiting the game...");
-                break;
-            default:
-                characterView.displayMessage("Invalid choice. Try again.");
+                exit(0);
+            }
+            default -> characterView.displayMessage("Invalid choice. Try again.");
         }
     }
+
+//    System.out.println("Do you want to create an opponent? (yes/no)");
+//    String createOpponent = menuView.getUserString();
+//                if (createOpponent.equalsIgnoreCase("yes")) {
+//        String opponentName = menuView.getUserString();
+//        characterView.displayMessage("Introduce the type (hero/god/titan/mythologicalAnimal)");
+//        String opponentType = menuView.getUserString();
+//        characterView.displayMessage("Introduce the health");
+//        int opponentHealth = menuView.getUserInt();
+//        characterView.displayMessage("Introduce the attack");
+//        int opponentAttack = menuView.getUserInt();
+//        characterView.displayMessage("Introduce the defense");
+//        int opponentDefense = menuView.getUserInt();
+//        Character opponent = createCharacter(opponentName, opponentType, opponentHealth, opponentAttack, opponentDefense);
+//        characterView.displayMessage("Opponent created: Opponent");
+//
+//        if (selectedCharacters.size() > 0) {
+//            performCombat(selectedCharacters.get(0), opponent);
+//        } else {
+//            characterView.displayMessage("You need to select a character first.");
+//        }
+//    } else {
+//        // TODO: ask if the opponent is created randomly
+//        characterView.displayMessage("Do you want to select your opponent? (yes/no)");
+//        String selectOpponent = menuView.getUserString();
+//        if(selectOpponent.equalsIgnoreCase("yes")) {
+//            // TODO: implement selecting opponent
+//            if (selectedCharacters.size() > 0) {
+//                Character opponent = selectCharacter();
+//                performCombat(selectedCharacters.get(0), opponent);
+//            } else {
+//                characterView.displayMessage("You need to select a character first.");
+//            }
+//        }
+//    }
 }
 
