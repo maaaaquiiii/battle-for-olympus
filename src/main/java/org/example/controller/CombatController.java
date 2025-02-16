@@ -47,7 +47,7 @@ public class CombatController {
         System.out.println(character2);
     }
 
-    private void character1Turn(Character character1, Character character2) {
+    public void character1Turn(Character character1, Character character2) {
         menuView.displayMessage("Choose an action (1: Attack, 2: Use Potion, 3: Equip Weapon): ");
         int action = -1;
         while (action < 1 || action > 3) {
@@ -57,7 +57,6 @@ public class CombatController {
                     if (character1.isCriticalHit()) {
                         menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
                         character1.attack(character2, 3);
-//                        System.out.printf("%s takes %d damage! Remaining health: %d\n", character2.getName(), character2.getAttack(), character2.getHealth());
                     } else {
                         character1.attack(character2);
                     }
@@ -71,7 +70,7 @@ public class CombatController {
         }
     }
 
-    private void character2Turn(Character character2, Character character1) {
+    public void character2Turn(Character character2, Character character1) {
         int action = random.nextInt(10);
 
         System.out.println("random action: " + action);
@@ -82,8 +81,6 @@ public class CombatController {
                 if (character2.isCriticalHit()) {
                     menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
                     character2.attack(character1, 3);
-//                    System.out.printf("%s attacks %s ", character2.getName(), character1.getName());
-//                    System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), character1.getAttack(), character1.getHealth());
                 } else {
                     character2.attack(character1);
                 }
@@ -93,12 +90,12 @@ public class CombatController {
         }
     }
 
-    private void character1UsePotion(Character character1) {
+    public void character1UsePotion(Character character1) {
         CharacterController characterController = new CharacterController();
         characterController.assignPotionToCharacter(character1);
     }
 
-    private void character2UsePotion(Character character2) {
+    public void character2UsePotion(Character character2) {
         if (!character2.getPotions().isEmpty()) {
             Potion randomPotion = character2.getPotions().get(random.nextInt(character2.getPotions().size()));
             character2.setPotion(randomPotion);
@@ -107,7 +104,7 @@ public class CombatController {
             System.out.println(character2.getName() + " has no potions to use!");
         }
     }
-    private void equipWeapon(Character character1) {
+    public void equipWeapon(Character character1) {
         WeaponController weaponController = new WeaponController();
         weaponController.showAllWeapons();
 
