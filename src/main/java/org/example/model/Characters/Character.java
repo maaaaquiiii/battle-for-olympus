@@ -1,13 +1,11 @@
 package org.example.model.Characters;
 
 import org.example.model.Potion;
-import org.example.model.Skill;
 import org.example.model.Weapon;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Character {
     private String name;
@@ -15,9 +13,7 @@ public abstract class Character {
     private int health;
     private int attack;
     private int defense;
-    private Map<String, Integer> victories;
-    private Set<Skill> skills;
-    private Set<Potion> potions;
+    private List<Potion> potions;
 
     private Weapon weapon;
 
@@ -27,61 +23,45 @@ public abstract class Character {
         this.health = characterBuilder.health;
         this.attack = characterBuilder.attack;
         this.defense = characterBuilder.defense;
-        this.victories = new HashMap<>();
-        this.skills = new HashSet<>();
-        this.potions = new HashSet<>();
+        this.potions = new ArrayList<>();
     }
-
-
 
     public void receiveDamage(int damage) {
         this.health -= damage;
         if (this.health < 0) this.health = 0;
     }
 
-    public void learnSkill(Skill skill) {
-        this.skills.add(skill);
+    public void attack(Character opponent) {
+        attack(opponent, 1);
     }
 
-    public void usePotion(Potion potion) {
-        if (potion.isHealing()) {
-            this.health += potion.getHealthBonus();
-        } else {
-            this.defense += potion.getDefenseBonus();
-        }
-        this.potions.remove(potion);
+    public void attack(Character opponent, int multiplier) {
+        int damage = this.attack * multiplier;
+        opponent.receiveDamage(damage);
     }
 
-    public void addVictory(String opponentType) {
-        this.victories.put(opponentType, this.victories.getOrDefault(opponentType, 0) + 1);
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.attack += weapon.getAttackBonus();
+    }
+    public boolean isAlive() {
+        return this.health > 0;
     }
 
-    public boolean hasSkill() {
-        return !skills.isEmpty();
-    }
-
-    public void useSkill(Character target) {
-        if (!skills.isEmpty()) {
-            Skill skill = skills.iterator().next();
-            skill.apply(this, target);
-            skills.remove(skill);
+    public void setPotion(Potion potion) {
+        if (potions.contains(potion)) {
+            potions.remove(potion);
+            if (potion.getHealthBoost() != 0) this.health += potion.getHealthBoost();
+            else if (potion.getDefenseBoost() != 0) this.health += potion.getDefenseBoost();
         }
     }
 
-    public boolean hasPotion() {
-        return !potions.isEmpty();
+    public void addPotion(Potion potion) {
+        this.potions.add(potion);
     }
 
-    public void increaseAttack(int attackBonus) {
-        this.attack += attackBonus;
-    }
-
-    public void restoreHealth(int healthBonus) {
-        this.health += healthBonus;
-    }
-
-    public void increaseDefense(int defenseBonus) {
-        this.defense += defenseBonus;
+    public void increaseAttack(int amount) {
+        this.attack += amount;
     }
 
     public String getName() {
@@ -104,15 +84,7 @@ public abstract class Character {
         return defense;
     }
 
-    public Map<String, Integer> getVictories() {
-        return victories;
-    }
-
-    public Set<Skill> getSkills() {
-        return skills;
-    }
-
-    public Set<Potion> getPotions() {
+    public List<Potion> getPotions() {
         return potions;
     }
 
@@ -120,11 +92,26 @@ public abstract class Character {
         return weapon;
     }
 
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-        this.attack += weapon.getAttackBonus();
-        this.defense += weapon.getDefenseBonus();
+    public void setHealth(int health) {
+        this.health = health;
     }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Character character = (Character) obj;
+        return name.equals(character.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
 
     @Override
     public String toString() {
@@ -132,6 +119,10 @@ public abstract class Character {
                 getName(), getHealth(), getAttack(), getDefense(), getWeapon() == null ? "None" : getWeapon());
     }
 
+    public void removePotion(Potion potion) {
+        potions.remove(potion);
+        potions.remove(potions.size() - 1);
+    }
 
     public static abstract class Builder<T extends Builder<T>> {
         private String name;
