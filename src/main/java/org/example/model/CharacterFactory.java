@@ -12,6 +12,7 @@ public class CharacterFactory {
                     .health(health)
                     .attack(attack)
                     .defense(defense)
+                    .luckPercentage(0.2)
                     .build();
             case "GOD" -> new God.GodBuilder()
                     .name(name)
@@ -19,6 +20,7 @@ public class CharacterFactory {
                     .health(health)
                     .attack(attack)
                     .defense(defense)
+                    .luckPercentage(0.4)
                     .build();
             case "HERO" -> new Hero.HeroBuilder()
                     .name(name)
@@ -26,6 +28,7 @@ public class CharacterFactory {
                     .health(health)
                     .attack(attack)
                     .defense(defense)
+                    .luckPercentage(0.3)
                     .build();
             case "TITAN" -> new Titan.TitanBuilder()
                     .name(name)
@@ -33,6 +36,7 @@ public class CharacterFactory {
                     .health(health)
                     .attack(attack)
                     .defense(defense)
+                    .luckPercentage(0.4)
                     .build();
             default -> new Human.HumanBuilder()
                     .name(name)
@@ -40,6 +44,7 @@ public class CharacterFactory {
                     .health(health)
                     .attack(attack)
                     .defense(defense)
+                    .luckPercentage(0.2)
                     .build();
         };
     }

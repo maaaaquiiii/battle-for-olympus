@@ -14,8 +14,8 @@ public abstract class Character {
     private int attack;
     private int defense;
     private List<Potion> potions;
-
     private Weapon weapon;
+    private double luckPercentage;
 
     protected Character(Builder<?> characterBuilder) {
         this.name = characterBuilder.name;
@@ -24,6 +24,7 @@ public abstract class Character {
         this.attack = characterBuilder.attack;
         this.defense = characterBuilder.defense;
         this.potions = new ArrayList<>();
+        this.luckPercentage = characterBuilder.luckPercentage;
     }
 
     public void receiveDamage(int damage) {
@@ -40,28 +41,17 @@ public abstract class Character {
         opponent.receiveDamage(damage);
     }
 
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-        this.attack += weapon.getAttackBonus();
+    public boolean isCriticalHit() {
+        return Math.random() < luckPercentage; // Devuelve true si el número generado está dentro de la probabilidad de suerte
     }
+
     public boolean isAlive() {
         return this.health > 0;
     }
 
-    public void setPotion(Potion potion) {
-        if (potions.contains(potion)) {
-            potions.remove(potion);
-            if (potion.getHealthBoost() != 0) this.health += potion.getHealthBoost();
-            else if (potion.getDefenseBoost() != 0) this.health += potion.getDefenseBoost();
-        }
-    }
 
     public void addPotion(Potion potion) {
         this.potions.add(potion);
-    }
-
-    public void increaseAttack(int amount) {
-        this.attack += amount;
     }
 
     public String getName() {
@@ -92,13 +82,25 @@ public abstract class Character {
         return weapon;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+
+    public void setPotion(Potion potion) {
+        if (potions.contains(potion)) {
+            potions.remove(potion);
+            if (potion.getHealthBoost() != 0) this.health += potion.getHealthBoost();
+            else if (potion.getDefenseBoost() != 0) this.health += potion.getDefenseBoost();
+        }
     }
 
-    public void setDefense(int defense) {
-        this.defense = defense;
+    public void setWeapon(Weapon weapon) {
+        if (this.weapon != null) {
+            this.attack -= this.weapon.getAttackBonus();
+        }
+        this.weapon = weapon;
+        if (this.weapon != null) {
+            this.attack += this.weapon.getAttackBonus();
+        }
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -112,16 +114,10 @@ public abstract class Character {
         return Objects.hash(name);
     }
 
-
     @Override
     public String toString() {
         return String.format("Character: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\n",
                 getName(), getHealth(), getAttack(), getDefense(), getWeapon() == null ? "None" : getWeapon());
-    }
-
-    public void removePotion(Potion potion) {
-        potions.remove(potion);
-        potions.remove(potions.size() - 1);
     }
 
     public static abstract class Builder<T extends Builder<T>> {
@@ -130,6 +126,7 @@ public abstract class Character {
         private int health;
         private int attack;
         private int defense;
+        private double luckPercentage;
 
         public T name(String name) {
             this.name = name;
@@ -153,6 +150,11 @@ public abstract class Character {
 
         public T defense(int defense) {
             this.defense = defense;
+            return self();
+        }
+
+        public T luckPercentage(double luckPercentage) {
+            this.luckPercentage = luckPercentage;
             return self();
         }
 
