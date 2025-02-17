@@ -36,34 +36,33 @@ public class CharacterController {
     }
 
     private void createPredefinedCharacters() {
-        addCharacter(createCharacter("Centaur", "animal", 2500, 20, 20));
-        addCharacter(createCharacter("Cerberus", "animal", 2750, 25, 10));
-        addCharacter(createCharacter("Chimera", "animal", 2750, 30, 15));
-        addCharacter(createCharacter("Griffin", "animal", 3000, 25, 10));
-        addCharacter(createCharacter("Harpy", "animal", 2750, 30, 15));
-        addCharacter(createCharacter("Minotaur", "animal", 3000, 35, 20));
-        addCharacter(createCharacter("Apollo", "god", 5000, 40, 30));
-        addCharacter(createCharacter("Ares", "god", 5500, 45, 40));
-        addCharacter(createCharacter("Artemis", "god", 5750, 55, 45));
-        addCharacter(createCharacter("Athena", "god", 5500, 50, 45));
-        addCharacter(createCharacter("Hades", "god", 5500, 55, 40));
-        addCharacter(createCharacter("Poseidon", "god", 5500, 50, 45));
-        addCharacter(createCharacter("Zeus", "god", 6000, 55, 40));
-        addCharacter(createCharacter("Aquiles", "hero", 3250, 30, 25));
-        addCharacter(createCharacter("Heracles", "hero", 3500, 40, 30));
-        addCharacter(createCharacter("Perseus", "hero", 3750, 40, 30));
-        addCharacter(createCharacter("Theseus", "hero", 4000, 50, 25));
-        addCharacter(createCharacter("Cronus", "titan", 9000, 50, 50));
-        addCharacter(createCharacter("Hyperion", "titan", 7500, 50, 40));
-        addCharacter(createCharacter("Oceanus", "titan", 8500, 55, 45));
-        addCharacter(createCharacter("Rhea", "titan", 9500, 60, 40));
-        addCharacter(createCharacter("Thea", "titan", 9000, 65, 45));
-        addCharacter(createCharacter("Themis", "titan", 8000, 55, 50));
+        addCharacter(createCharacter("Centaur", "animal", 3500, 100, 15));
+        addCharacter(createCharacter("Cerberus", "animal", 3750, 105, 10));
+        addCharacter(createCharacter("Chimera", "animal", 3750, 100, 15));
+        addCharacter(createCharacter("Griffin", "animal", 4000, 105, 10));
+        addCharacter(createCharacter("Harpy", "animal", 3750, 100, 15));
+        addCharacter(createCharacter("Minotaur", "animal", 4000, 105, 15));
+        addCharacter(createCharacter("Apollo", "god", 5000, 130, 10));
+        addCharacter(createCharacter("Ares", "god", 5500, 125, 20));
+        addCharacter(createCharacter("Artemis", "god", 5750, 135, 15));
+        addCharacter(createCharacter("Athena", "god", 5500, 130, 10));
+        addCharacter(createCharacter("Hades", "god", 5500, 135, 20));
+        addCharacter(createCharacter("Poseidon", "god", 5500, 130, 15));
+        addCharacter(createCharacter("Zeus", "god", 6000, 125, 20));
+        addCharacter(createCharacter("Aquiles", "hero", 4250, 115, 15));
+        addCharacter(createCharacter("Heracles", "hero", 4500, 110, 20));
+        addCharacter(createCharacter("Perseus", "hero", 4750, 120, 10));
+        addCharacter(createCharacter("Theseus", "hero", 5000, 110, 15));
+        addCharacter(createCharacter("Cronus", "titan", 9000, 115, 20));
+        addCharacter(createCharacter("Hyperion", "titan", 7500, 150, 20));
+        addCharacter(createCharacter("Oceanus", "titan", 8500, 145, 15));
+        addCharacter(createCharacter("Rhea", "titan", 9500, 140, 20));
+        addCharacter(createCharacter("Thea", "titan", 9000, 145, 15));
+        addCharacter(createCharacter("Themis", "titan", 8000, 140, 20));
     }
 
     public Character createCharacter(String name, String type, int health, int attack, int defense) {
         Character newCharacter = CharacterFactory.createCharacter(name, type, health, attack, defense);
-//        assignPotionToCharacter(newCharacter);
         return newCharacter;
     }
 
@@ -78,12 +77,13 @@ public class CharacterController {
     }
 
     public void assignPotionToCharacter(Character character) {
+        characterView.clearBuffer(characterView.getScanner());
         characterView.displayMessage("Do you want to assign a potion manually or randomly? (manually/randomly) ");
 
         if(characterView.getUserString().equalsIgnoreCase("manually")) {
-            potionController.listPotions(character);
+            potionController.showAllPotions();
             characterView.displayMessage("What potion do you want to assign yourself?");
-            potionController.assignPotionToCharacter(character, characterView.getUserString());
+            potionController.assignPotionToCharacter(character, characterView.getUserString().);
         } else {
             potionController.assignRandomPotionToCharacter(character);
         }
@@ -120,8 +120,6 @@ public class CharacterController {
     public void drinkPotion(Character character) {
         potionController.usePotion(character);
     }
-
-//    potionController.selectPotion(character);
 
     public Character findCharacterByName(String name) {
         return getAllCharacters().stream()

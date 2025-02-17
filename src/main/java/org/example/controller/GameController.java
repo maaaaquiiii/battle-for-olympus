@@ -8,7 +8,6 @@ import org.example.view.MenuView;
 import java.util.List;
 
 import static java.lang.System.exit;
-import static org.example.view.View.scanner;
 
 public class GameController {
     private CharacterController characterController;
@@ -55,30 +54,30 @@ public class GameController {
 
     private Character selectOrCreateCharacter() {
         menuView.promptCharacterSelectionOrCreation();
-        menuView.clearBuffer(scanner);
+        menuView.clearBuffer(menuView.getScanner());
         int choice = menuView.getUserInt();
 
         if (choice == 1) {
             List<Character> characters = characterController.getAllCharacters();
             characters.forEach(c -> System.out.println(c.getName()));
-            menuView.clearBuffer(scanner);
+            menuView.clearBuffer(menuView.getScanner());
             System.out.print("Enter the character name: ");
             String name = menuView.getUserString();
             return characterController.findCharacterByName(name);
         } else {
-            menuView.clearBuffer(scanner);
+            menuView.clearBuffer(menuView.getScanner());
             menuView.displayMessage("Enter new character name: ");
             String name = menuView.getUserString();
-            menuView.clearBuffer(scanner);
+            menuView.clearBuffer(menuView.getScanner());
             menuView.displayMessage("Enter type (animal, hero, human, god, titan): ");
             String type = menuView.getUserString();
-            menuView.clearBuffer(scanner);
+            menuView.clearBuffer(menuView.getScanner());
             menuView.displayMessage("Enter the health (values between 100-1000): ");
             int health = menuView.getUserInt();
-            menuView.clearBuffer(scanner);
+            menuView.clearBuffer(menuView.getScanner());
             menuView.displayMessage("Enter the attack (values between 5-30): ");
             int attack = menuView.getUserInt();
-            menuView.clearBuffer(scanner);
+            menuView.clearBuffer(menuView.getScanner());
             menuView.displayMessage("Enter the defense (values between 5-30): ");
             int defense = menuView.getUserInt();
 

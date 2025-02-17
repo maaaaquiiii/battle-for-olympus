@@ -13,9 +13,9 @@ public abstract class Character {
     private int health;
     private int attack;
     private int defense;
+    private double luckPercentage;
     private List<Potion> potions;
     private Weapon weapon;
-    private double luckPercentage;
 
     protected Character(Builder<?> characterBuilder) {
         this.name = characterBuilder.name;
@@ -23,12 +23,12 @@ public abstract class Character {
         this.health = characterBuilder.health;
         this.attack = characterBuilder.attack;
         this.defense = characterBuilder.defense;
-        this.potions = new ArrayList<>();
         this.luckPercentage = characterBuilder.luckPercentage;
+        this.potions = new ArrayList<>();
     }
 
     public void receiveDamage(int damage) {
-        this.health -= damage;
+        this.health -= (damage - this.defense);
         if (this.health < 0) this.health = 0;
     }
 
@@ -42,7 +42,7 @@ public abstract class Character {
     }
 
     public boolean isCriticalHit() {
-        return Math.random() < luckPercentage; // Devuelve true si el número generado está dentro de la probabilidad de suerte
+        return Math.random() < luckPercentage;
     }
 
     public boolean isAlive() {

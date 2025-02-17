@@ -21,6 +21,11 @@ public class Potion {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Name: %s\thealth boost: %d\tdefense boost: %d\n", getName(), getHealthBoost(), getDefenseBoost());
+    }
+
     public static class Builder {
         private String name;
         private int healthBoost;

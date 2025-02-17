@@ -15,7 +15,6 @@ public class View {
     }
 
     public int getUserInt() {
-        System.out.print("Select an option: ");
         while (!scanner.hasNextInt()) {
             System.out.print("Invalid input. Please enter an integer: ");
             scanner.next(); // Clear the invalid input
@@ -32,4 +31,6 @@ public class View {
             scanner.nextLine(); //clear the buffer
         }
     }
+
+
 }

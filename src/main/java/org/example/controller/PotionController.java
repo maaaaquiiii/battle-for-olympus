@@ -17,12 +17,12 @@ public class PotionController {
 
     public void createPredefinedPotions() {
         potions.addAll(Arrays.asList(
-                new Potion.Builder().name("Nectar of Ambrosia").healthBoost(150).build(),
+                new Potion.Builder().name("Nectar of Ambrosia").healthBoost(250).build(),
                 new Potion.Builder().name("Heracles' Strength").defenseBoost(15).build(),
-                new Potion.Builder().name("Asclepius' Elixir").healthBoost(175).build(),
-                new Potion.Builder().name("Athena's Shield").healthBoost(10).defenseBoost(25).build(),
-                new Potion.Builder().name("Panacea's Remedy").healthBoost(200).build(),
-                new Potion.Builder().name("Iris' Elixir").healthBoost(125).defenseBoost(15).build()
+                new Potion.Builder().name("Asclepius' Elixir").healthBoost(275).build(),
+                createPotion("Athena's Shield", 10, 25),
+                new Potion.Builder().name("Panacea's Remedy").healthBoost(300).build(),
+                createPotion("Iris Elixir", 325, 15)
         ));
     }
 
@@ -50,15 +50,15 @@ public class PotionController {
         }
         Potion randomPotion = getRandomPotion();
         character.addPotion(randomPotion);
-        System.out.println(character.getName() + " received the potion: " + randomPotion.getName());
+        usePotion(character);
     }
 
     public void assignPotionToCharacter(Character character, String potionName) {
-        Potion potion = findPotionByName(character, potionName);
+        Potion potion = findPotionByName(potionName);
 
         if (potion != null) {
             character.addPotion(potion);
-            System.out.println(character.getName() + " received the potion: " + potion.getName());
+            usePotion(character);
         } else {
             System.out.println("Potion not found.");
         }
@@ -79,11 +79,11 @@ public class PotionController {
             return;
         }
 
-        Potion potion = findPotionByName(character, potionName);
+        Potion potion = findPotionByName(potionName);
         if (potion != null) {
             applyPotionEffects(character, potion);
             character.getPotions().remove(potion);
-            System.out.println(character.getName() + " used " + potion.getName());
+            System.out.printf("%s drunk the potion %s, so now the new stats are: %d, %d\n", character.getPotions(), potion.getName(), character.getHealth(), character.getDefense());
         } else {
             System.out.println("Potion not found.");
         }
@@ -94,11 +94,18 @@ public class PotionController {
         character.getPotions().forEach(potion -> System.out.println(potion.getName()));
     }
 
-    private Potion findPotionByName(Character character, String potionName) {
-        return character.getPotions().stream()
+    private Potion findPotionByName(String potionName) {
+        return getPotions().stream()
                 .filter(potion -> potion.getName().equalsIgnoreCase(potionName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private Potion findCharactersPotion(Character character, String potionName) {
+        return character.getPotions().stream()
+               .filter(potion -> potion.getName().equalsIgnoreCase(potionName))
+               .findFirst()
+               .orElse(null);
     }
 
     private void applyPotionEffects(Character character, Potion potion) {

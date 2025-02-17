@@ -5,7 +5,7 @@ import org.example.model.Potion;
 
 import java.util.Scanner;
 
-public class CharacterView extends View{
+public class CharacterView extends View {
     public void displayCharacterDetails(Character character) {
         System.out.println("Character name: " + character.getName());
         System.out.println("Health: " + character.getHealth());

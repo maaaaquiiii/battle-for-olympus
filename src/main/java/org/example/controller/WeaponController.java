@@ -2,60 +2,77 @@ package org.example.controller;
 
 import org.example.model.Weapon;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 
-public class WeaponController {
-    private List<Weapon> weapons;
+public class  WeaponController {
+    private static final int MAX_WEAPONS = 25;
+    private Weapon[] weapons;
+    private int counter;
     private Random random;
 
     public WeaponController() {
-        this.weapons = new ArrayList<>();
+        this.weapons = new Weapon[MAX_WEAPONS];
         this.random = new Random();
+        this.counter = 0;
         createPredefinedWeapons();
     }
 
     public void createPredefinedWeapons() {
-        weapons.addAll(Arrays.asList(
-                createWeapon("Zeus' Thunderbolt", 75),
-                createWeapon("Harpe", 50),
-                createWeapon("Cronus' Scythe", 75),
-                createWeapon("Bow of Artemis", 60),
-                createWeapon("Achilles' Spear", 65),
-                createWeapon("Eurytus' Bow", 50)
-        ));
+        addWeapon(createWeapon("Harpe", 50));
+        addWeapon(createWeapon("Cronus' Scythe", 75));
+        addWeapon(createWeapon("Bow of Artemis", 60));
+        addWeapon(createWeapon("Achilles' Spear", 65));
+        addWeapon(createWeapon("Eurytus' Bow", 50));
+        addWeapon(createWeapon("Zeus' Thunderbolt", 75));
     }
 
     public Weapon createWeapon(String name, int attackBonus) {
         return new Weapon(name, attackBonus);
     }
 
+    public boolean addWeapon(Weapon weapon) {
+        if (counter < MAX_WEAPONS) {
+            weapons[counter++] = weapon;
+            return true;
+        } else {
+            System.out.println("Weapon limit reached. Cannot add more weapons.");
+            return false;
+        }
+    }
+
     public void showWeapon(Weapon weapon) {
-        System.out.println(weapon);
+        if (weapon != null) {
+            System.out.println(weapon);
+        }
     }
 
     public void showAllWeapons() {
         System.out.println("All weapons");
-        getWeapons().forEach(this::showWeapon);
-    }
-
-    public List<Weapon> getWeapons() {
-        return weapons;
+        for(Weapon w : weapons) {
+            showWeapon(w);
+        }
     }
 
     public Weapon getWeaponByIndex(int index) {
-        if (index >= 0 && index < weapons.size()) {
-            return weapons.get(index);
+        if(index >= 0 && index < counter) {
+            return weapons[index];
         } else {
-            System.out.println("Invalid index, please select a valid weapon number.");
+            System.out.println("Invalid index. Returning null.");
             return null;
         }
     }
 
     public Weapon getRandomWeapon() {
-        return weapons.get(random.nextInt(weapons.size()));
+        if(counter == 0) {
+            System.out.println("No weapons available. Returning null.");
+            return null;
+        }
+        return weapons[random.nextInt(counter)];
+    }
+
+    public Weapon[] getWeapons() {
+        return weapons;
     }
 }

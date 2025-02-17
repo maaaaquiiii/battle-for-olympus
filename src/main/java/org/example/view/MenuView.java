@@ -24,12 +24,14 @@ public class MenuView extends View {
         System.out.println("2. One random character, one manually selected");
         System.out.println("3. Both characters random");
         System.out.println("4. Exit");
+        System.out.print("Select an option: ");
     }
 
     public void promptCharacterSelectionOrCreation() {
         System.out.println("Select or create a character:");
         System.out.println("1. Select an existing character");
         System.out.println("2. Create a new character");
+        System.out.print("Select an option: ");
     }
 
 }

@@ -55,13 +55,15 @@ public class CombatController {
             switch (action) {
                 case 1 -> {
                     if (character1.isCriticalHit()) {
-                        menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
                         character1.attack(character2, 3);
+                        menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
+                        System.out.printf("%s attacks %s, ", character1.getName(), character2.getName());
+                        System.out.printf("%s takes %d damage! Remaining health: %d\n", character2.getName(), (character1.getAttack() * 3), character2.getHealth());
                     } else {
                         character1.attack(character2);
+                        System.out.printf("%s attacks %s, ", character1.getName(), character2.getName());
+                        System.out.printf("%s takes %d damage! Remaining health: %d\n", character2.getName(), character1.getAttack(), character2.getHealth());
                     }
-                    System.out.printf("%s attacks %s, ", character1.getName(), character2.getName());
-                    System.out.printf("%s takes %d damage! Remaining health: %d\n", character2.getName(), character2.getAttack(), character2.getHealth());
                 }
                 case 2 -> character1UsePotion(character1);
                 case 3 -> equipWeapon(character1);
@@ -76,16 +78,21 @@ public class CombatController {
         System.out.println("random action: " + action);
         switch (action) {
             case 1, 5 -> character2UsePotion(character2);
-            case 3 -> equipWeaponRandomly(character2);
+            case 3 -> {
+                equipWeaponRandomly(character2);
+                System.out.printf("%s equips %s", character2.getName(), character2.getWeapon().getName());
+            }
             default -> {
                 if (character2.isCriticalHit()) {
                     menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
+                    System.out.printf("%s attacks %s, ", character2.getName(), character1.getName());
                     character2.attack(character1, 3);
+                    System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), (character2.getAttack() * 3), character1.getHealth());
                 } else {
                     character2.attack(character1);
+
+                    System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), character2.getAttack(), character1.getHealth());
                 }
-                System.out.printf("%s attacks %s, ", character2.getName(), character1.getName());
-                System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), character1.getAttack(), character1.getHealth());
             }
         }
     }
@@ -108,7 +115,7 @@ public class CombatController {
         WeaponController weaponController = new WeaponController();
         weaponController.showAllWeapons();
 
-        menuView.clearBuffer(scanner);
+        menuView.clearBuffer(menuView.getScanner());
         menuView.displayMessage("Choose a weapon to equip by number:");
         int weaponChoice = menuView.getUserInt();
         Weapon weapon = weaponController.getWeaponByIndex(weaponChoice - 1);
@@ -119,13 +126,13 @@ public class CombatController {
     private void equipWeaponRandomly(Character character2) {
         WeaponController weaponController = new WeaponController();
 
-        List<Weapon> allWeapons = weaponController.getWeapons();
-        if (allWeapons.isEmpty()) {
+        Weapon[] allWeapons = weaponController.getWeapons();
+        if (allWeapons.length == 0) {
             menuView.displayMessage("No weapons available to equip.");
             return;
         }
         Random random = new Random();
-        Weapon randomWeapon = allWeapons.get(random.nextInt(allWeapons.size()));
+        Weapon randomWeapon = weaponController.getRandomWeapon();
         character2.setWeapon(randomWeapon);
         System.out.printf("%s equips %s!\n", character2.getName(), randomWeapon.getName());
     }
