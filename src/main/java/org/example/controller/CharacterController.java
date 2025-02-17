@@ -79,11 +79,13 @@ public class CharacterController {
     public void assignPotionToCharacter(Character character) {
         characterView.clearBuffer(characterView.getScanner());
         characterView.displayMessage("Do you want to assign a potion manually or randomly? (manually/randomly) ");
-
-        if(characterView.getUserString().equalsIgnoreCase("manually")) {
+        String choice = characterView.getUserString();
+        if (choice.equalsIgnoreCase("manually")) {
             potionController.showAllPotions();
-            characterView.displayMessage("What potion do you want to assign yourself?");
-            potionController.assignPotionToCharacter(character, characterView.getUserString().);
+            characterView.displayMessage("What potion do you want to assign?");
+            int index = characterView.getUserInt();
+            potionController.assignPotionToCharacter(character, potionController.getPotionByIndex(index));
+            potionController.usePotion(character, potionController.getPotionByIndex(index));
         } else {
             potionController.assignRandomPotionToCharacter(character);
         }
@@ -115,10 +117,6 @@ public class CharacterController {
 
     public void equipWeapon(Character character, Weapon weapon) {
         character.setWeapon(weapon);
-    }
-
-    public void drinkPotion(Character character) {
-        potionController.usePotion(character);
     }
 
     public Character findCharacterByName(String name) {

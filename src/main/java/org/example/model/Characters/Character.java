@@ -86,8 +86,12 @@ public abstract class Character {
     public void setPotion(Potion potion) {
         if (potions.contains(potion)) {
             potions.remove(potion);
-            if (potion.getHealthBoost() != 0) this.health += potion.getHealthBoost();
-            else if (potion.getDefenseBoost() != 0) this.health += potion.getDefenseBoost();
+            if (potion.getHealthBoost() != 0) this.defense += potion.getDefenseBoost();
+            else if (potion.getDefenseBoost() != 0) this.health += potion.getHealthBoost();
+            else {
+                this.health += potion.getHealthBoost();
+                this.defense += potion.getDefenseBoost();
+            }
         }
     }
 

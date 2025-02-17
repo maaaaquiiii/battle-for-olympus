@@ -4,17 +4,19 @@ import org.example.model.Characters.Character;
 import org.example.model.Potion;
 import org.example.model.Weapon;
 import org.example.view.MenuView;
+import org.example.controller.PotionController;
 
-import java.util.List;
 import java.util.Random;
 
 import static org.example.view.View.scanner;
 
 public class CombatController {
+    private PotionController potionController;
     private MenuView menuView;
     private Random random;
 
     public CombatController() {
+        this.potionController = new PotionController();
         this.menuView = new MenuView();
         this.random = new Random();
     }
@@ -90,10 +92,16 @@ public class CombatController {
                     System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), (character2.getAttack() * 3), character1.getHealth());
                 } else {
                     character2.attack(character1);
-
+                    System.out.printf("%s attacks %s, ", character2.getName(), character1.getName());
                     System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), character2.getAttack(), character1.getHealth());
                 }
             }
+        }
+        int randomNum = random.nextInt(10);
+        System.out.println("Random number for assign potion to character 2 " + randomNum);
+        if (randomNum < 3) {
+            PotionController potionController = new PotionController();
+            potionController.assignRandomPotionToCharacter(character2);
         }
     }
 
@@ -104,9 +112,9 @@ public class CombatController {
 
     public void character2UsePotion(Character character2) {
         if (!character2.getPotions().isEmpty()) {
-            Potion randomPotion = character2.getPotions().get(random.nextInt(character2.getPotions().size()));
-            character2.setPotion(randomPotion);
-            System.out.println(character2.getName() + " uses " + randomPotion.getName() + "!");
+            Potion randomPotion = potionController.getRandomPotion();
+            potionController.usePotion(character2, randomPotion);
+            //System.out.println(character2.getName() + " uses " + randomPotion.getName() + "!");
         } else {
             System.out.println(character2.getName() + " has no potions to use!");
         }
@@ -131,7 +139,6 @@ public class CombatController {
             menuView.displayMessage("No weapons available to equip.");
             return;
         }
-        Random random = new Random();
         Weapon randomWeapon = weaponController.getRandomWeapon();
         character2.setWeapon(randomWeapon);
         System.out.printf("%s equips %s!\n", character2.getName(), randomWeapon.getName());
