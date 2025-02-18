@@ -5,11 +5,6 @@ import java.util.Scanner;
 public class View {
     public static Scanner scanner = new Scanner(System.in);
 
-
-    public static Scanner getScanner() {
-        return scanner;
-    }
-
     public void displayMessage(String message) {
         System.out.println(message);
     }
@@ -26,11 +21,13 @@ public class View {
         return scanner.nextLine();
     }
 
+    public boolean getUserBoolean() {
+        return scanner.nextBoolean();
+    }
+
     public static void clearBuffer(Scanner scanner) {
         if (scanner.hasNextLine()) {
             scanner.nextLine(); //clear the buffer
         }
     }
-
-
 }

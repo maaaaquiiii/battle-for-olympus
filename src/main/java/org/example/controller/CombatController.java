@@ -11,7 +11,6 @@ public class CombatController {
     private final PotionController potionController;
     private final WeaponController weaponController;
     private final Random random;
-    private boolean playerRandomMood;
 
     public CombatController() {
         this.characterController = new CharacterController();
@@ -21,55 +20,20 @@ public class CombatController {
 
     }
 
-    public void initiateCombat(Character character1, Character character2) {
-        boolean isCombatOver = false;
-        while (!isCombatOver) {
-            characterTurn(character1, character2, false);
-            if(!character2.isAlive()) {
-                isCombatOver = true;
-            }
-            boolean player2Option = getPlayerOption(character2);
-            characterTurn(character2, character1, player2Option);
-        }
-    }
-
-    private void characterTurn(Character character1, Character character2, boolean playerRandomMood) {
-        if(!playerRandomMood) {
-            int action = getManualAction(character1);
+    private void characterTurn(Character character1, Character character2, boolean isRandom) {
+        int action = isRandom ? getRandomAction() : -1;
+        if(!isRandom) {
             switch (action) {
                 case 1 -> attack(character1, character2);
-                case 2 -> {
-                    int index = getManualPotionIndex(character1);
-                    useManualPotion(character1, index);
-                }
-                case 3 -> {
-                    int index = getManualWeaponIndex(character1);
-                    equipManualWeapon(character1, index);
-                }
+                case 2 -> useManualPotion(character1, -1);
+                case 3 -> equipManualWeapon(character1, -1);
             }
         }
-        int action = getRandomAction();
         switch (action) {
             case 2 -> character2UsePotion(character1);
             case 3 -> equipWeaponRandomly(character1);
             default -> attack(character1, character2);
         }
-    }
-
-    private int getManualAction(Character character) {
-        throw new UnsupportedOperationException("Manual input managed by MenuView");
-    }
-
-    private int getManualPotionIndex(Character character) {
-        throw new UnsupportedOperationException("Manual input managed by MenuView");
-    }
-
-    private int getManualWeaponIndex(Character character) {
-        throw new UnsupportedOperationException("Manual input managed by MenuView");
-    }
-
-    private boolean getPlayerOption(Character character) {
-        throw new UnsupportedOperationException("Manual input managed by MenuView");
     }
 
     private int getRandomAction() {
@@ -91,7 +55,8 @@ public class CombatController {
             potionController.usePotion(character, potion);
         }
     }
-    public void character2UsePotion(Character character2) {
+
+    private void character2UsePotion(Character character2) {
         if (!character2.getPotions().isEmpty()) {
             potionController.assignRandomPotionToCharacter(character2);
             potionController.usePotion(character2, character2.getPotions().get(random.nextInt(character2.getPotions().size())));
