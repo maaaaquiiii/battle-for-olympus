@@ -11,45 +11,47 @@ public class CombatController {
     private final PotionController potionController;
     private final WeaponController weaponController;
     private final Random random;
-    private final boolean isPlayer1Manual;
-    private final boolean isPlayer2Manual;
 
     public CombatController() {
         this.characterController = new CharacterController();
         this.potionController = new PotionController();
         this.weaponController = new WeaponController();
         this.random = new Random();
-        this.isPlayer1Manual = true;
-        this.isPlayer2Manual = true;
     }
 
-    public void initiateCombat(Character character1, Character character2, boolean isPlayer1Manual, boolean isPlayer2Manual) {
+    public void initiateCombat(Character character1, Character character2) {
         boolean isCombatOver = false;
         while (!isCombatOver) {
-            characterTurn(character1, character2, isPlayer1Manual);
+            character1Turn(character1, character2);
             if(!character2.isAlive()) {
                 isCombatOver = true;
             }
-            characterTurn(character2, character1, isPlayer2Manual);
+            characterTurn(character2, character1);
+        }
+    }
+
+    private void character1Turn(Character character1, Character character2) {
+        int action = getManualAction(character1);
+        switch (action) {
+            case 1 -> attack(character1, character2);
+            case 2 -> {
+                int index = getManualAction(character1);
+                useManualPotion(character1, index);
+            }
+            case 3 -> {
+                int index = getManualAction(character1);
+                equipManualWeapon(character1, index);
+            }
         }
     }
 
 
-    private void characterTurn(Character attacker, Character defender, boolean manualMode) {
-        if (manualMode) {
-            int action = getManualAction(attacker);
-            switch (action) {
-                case 1 -> attack(attacker, defender);
-                case 2 -> useManualPotion(attacker);
-                case 3 -> equipManualWeapon(attacker);
-            }
-        } else {
-            int action = getRandomAction();
-            switch (action) {
-                case 2 -> character2UsePotion(attacker);
-                case 3 -> equipWeaponRandomly(attacker);
-                default -> attack(attacker, defender);
-            }
+    private void characterTurn(Character attacker, Character defender) {
+        int action = getRandomAction();
+        switch (action) {
+            case 2 -> character2UsePotion(attacker);
+            case 3 -> equipWeaponRandomly(attacker);
+            default -> attack(attacker, defender);
         }
     }
 
@@ -95,6 +97,5 @@ public class CombatController {
         }
         Weapon randomWeapon = weaponController.getRandomWeapon();
         character2.setWeapon(randomWeapon);
-        System.out.printf("%s equips %s!\n", character2.getName(), randomWeapon.getName());
     }
 }

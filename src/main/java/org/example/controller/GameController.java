@@ -39,6 +39,10 @@ public class GameController {
         }
     }
 
+    private Character selectOrCreateCharacter() {
+
+    }
+
     private void manualSelection() {
         Character character1 = selectOrCreateCharacter();
         Character character2 = selectOrCreateCharacter();
@@ -52,62 +56,9 @@ public class GameController {
         combatController.initiateCombat(character1, character2);
     }
 
-    private Character selectOrCreateCharacter() {
-        menuView.promptCharacterSelectionOrCreation();
-        menuView.clearBuffer(menuView.getScanner());
-        int choice = menuView.getUserInt();
-
-        if (choice == 1) {
-            List<Character> characters = characterController.getAllCharacters();
-            characters.forEach(c -> System.out.println(c.getName()));
-            menuView.clearBuffer(menuView.getScanner());
-            System.out.print("Enter the character name: ");
-            String name = menuView.getUserString();
-            return characterController.findCharacterByName(name);
-        } else {
-            menuView.clearBuffer(menuView.getScanner());
-            menuView.displayMessage("Enter new character name: ");
-            String name = menuView.getUserString();
-            menuView.clearBuffer(menuView.getScanner());
-            menuView.displayMessage("Enter type (animal, hero, human, god, titan): ");
-            String type = menuView.getUserString();
-            menuView.clearBuffer(menuView.getScanner());
-            menuView.displayMessage("Enter the health (values between 100-1000): ");
-            int health = menuView.getUserInt();
-            menuView.clearBuffer(menuView.getScanner());
-            menuView.displayMessage("Enter the attack (values between 5-30): ");
-            int attack = menuView.getUserInt();
-            menuView.clearBuffer(menuView.getScanner());
-            menuView.displayMessage("Enter the defense (values between 5-30): ");
-            int defense = menuView.getUserInt();
-
-            return characterController.createCharacter(name, type, health, attack, defense);
-        }
-    }
-
     private void bothRandom() {
         Character character1 = characterController.getRandomCharacter();
-        assignRandomItems(character1);
-
         Character character2 = characterController.getRandomCharacter();
-        assignRandomItems(character2);
-
-        System.out.println("\nRandom Matchup: " + character1.getName() + " vs " + character2.getName());
         combatController.initiateCombat(character1, character2);
-    }
-
-    private void assignRandomItems(Character character) {
-        WeaponController weaponController = new WeaponController();
-        PotionController potionController = new PotionController();
-
-        if (character == null) {
-            throw new IllegalArgumentException("Error: Character not found. Please check the entered name.");
-        }
-        if (character.getWeapon() == null) {
-            Weapon weapon = weaponController.getRandomWeapon();
-            characterController.equipWeapon(character, weapon);
-        }
-        Potion potion = potionController.getRandomPotion();
-        character.setPotion(potion);
     }
 }
