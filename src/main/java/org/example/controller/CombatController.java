@@ -3,141 +3,95 @@ package org.example.controller;
 import org.example.model.Characters.Character;
 import org.example.model.Potion;
 import org.example.model.Weapon;
-import org.example.view.MenuView;
-import org.example.controller.PotionController;
 
 import java.util.Random;
 
-import static org.example.view.View.scanner;
-
 public class CombatController {
-    private PotionController potionController;
-    private MenuView menuView;
-    private Random random;
+    private final CharacterController characterController;
+    private final PotionController potionController;
+    private final WeaponController weaponController;
+    private final Random random;
+    private final boolean isPlayer1Manual;
+    private final boolean isPlayer2Manual;
 
     public CombatController() {
+        this.characterController = new CharacterController();
         this.potionController = new PotionController();
-        this.menuView = new MenuView();
+        this.weaponController = new WeaponController();
         this.random = new Random();
+        this.isPlayer1Manual = true;
+        this.isPlayer2Manual = true;
     }
 
-    public void initiateCombat(Character character1, Character character2) {
-        menuView.displayMessage("\n--- THE FIGHT BEGINS ---\n");
-        showCombatStatus(character1, character2);
-        System.out.println(character1.getName() + " vs " + character2.getName());
+    public void initiateCombat(Character character1, Character character2, boolean isPlayer1Manual, boolean isPlayer2Manual) {
         boolean isCombatOver = false;
-
         while (!isCombatOver) {
-            character1Turn(character1, character2);
-            if (!character2.isAlive()) {
+            characterTurn(character1, character2, isPlayer1Manual);
+            if(!character2.isAlive()) {
                 isCombatOver = true;
             }
-            character2Turn(character2, character1);
-            if (!character1.isAlive()) {
-                isCombatOver = true;
-            }
-            showCombatStatus(character1, character2);
+            characterTurn(character2, character1, isPlayer2Manual);
         }
-
-        Character winner = (character1.isAlive()) ? character1 : character2;
-        Character loser = (!character1.isAlive()) ? character1 : character2;
-        System.out.printf("%s beat %s\n", winner.getName(), loser.getName());
     }
 
-    private void showCombatStatus(Character character1, Character character2) {
-        System.out.println(character1);
-        System.out.println(character2);
-    }
 
-    public void character1Turn(Character character1, Character character2) {
-        menuView.displayMessage("Choose an action (1: Attack, 2: Use Potion, 3: Equip Weapon): ");
-        int action = -1;
-        while (action < 1 || action > 3) {
-            action = menuView.getUserInt();
+    private void characterTurn(Character attacker, Character defender, boolean manualMode) {
+        if (manualMode) {
+            int action = getManualAction(attacker);
             switch (action) {
-                case 1 -> {
-                    if (character1.isCriticalHit()) {
-                        character1.attack(character2, 3);
-                        menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
-                        System.out.printf("%s attacks %s, ", character1.getName(), character2.getName());
-                        System.out.printf("%s takes %d damage! Remaining health: %d\n", character2.getName(), (character1.getAttack() * 3), character2.getHealth());
-                    } else {
-                        character1.attack(character2);
-                        System.out.printf("%s attacks %s, ", character1.getName(), character2.getName());
-                        System.out.printf("%s takes %d damage! Remaining health: %d\n", character2.getName(), character1.getAttack(), character2.getHealth());
-                    }
-                }
-                case 2 -> character1UsePotion(character1);
-                case 3 -> equipWeapon(character1);
-                default -> System.out.println("Invalid action! Please choose again.");
+                case 1 -> attack(attacker, defender);
+                case 2 -> useManualPotion(attacker);
+                case 3 -> equipManualWeapon(attacker);
+            }
+        } else {
+            int action = getRandomAction();
+            switch (action) {
+                case 2 -> character2UsePotion(attacker);
+                case 3 -> equipWeaponRandomly(attacker);
+                default -> attack(attacker, defender);
             }
         }
     }
 
-    public void character2Turn(Character character2, Character character1) {
-        int action = random.nextInt(10);
-
-        System.out.println("random action: " + action);
-        switch (action) {
-            case 1, 5 -> character2UsePotion(character2);
-            case 3 -> {
-                equipWeaponRandomly(character2);
-                System.out.printf("%s equips %s", character2.getName(), character2.getWeapon().getName());
-            }
-            default -> {
-                if (character2.isCriticalHit()) {
-                    menuView.displayMessage("Critical hit! Your attack is multiplied by 3.");
-                    System.out.printf("%s attacks %s, ", character2.getName(), character1.getName());
-                    character2.attack(character1, 3);
-                    System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), (character2.getAttack() * 3), character1.getHealth());
-                } else {
-                    character2.attack(character1);
-                    System.out.printf("%s attacks %s, ", character2.getName(), character1.getName());
-                    System.out.printf("%s takes %d damage! Remaining health: %d\n", character1.getName(), character2.getAttack(), character1.getHealth());
-                }
-            }
-        }
-        int randomNum = random.nextInt(10);
-        System.out.println("Random number for assign potion to character 2 " + randomNum);
-        if (randomNum < 3) {
-            PotionController potionController = new PotionController();
-            potionController.assignRandomPotionToCharacter(character2);
-        }
+    private int getManualAction(Character character) {
+        throw new UnsupportedOperationException("Manual input managed by MenuView");
     }
 
-    public void character1UsePotion(Character character1) {
-        CharacterController characterController = new CharacterController();
-        characterController.assignPotionToCharacter(character1);
+    private int getRandomAction() {
+        return random.nextInt(10);
     }
 
+    private void attack(Character attacker, Character defender) {
+        int damageMultiplier = 1;
+        if (attacker.isCriticalHit()) {
+            damageMultiplier = 3;
+        }
+        attacker.attack(defender, damageMultiplier);
+    }
+
+    private void useManualPotion(Character character, int index) {
+        if(!character.getPotions().isEmpty()) {
+            Potion potion = potionController.getPotionByIndex(index);
+            potionController.assignPotionToCharacter(character, potion);
+            potionController.usePotion(character, potion);
+        }
+    }
     public void character2UsePotion(Character character2) {
         if (!character2.getPotions().isEmpty()) {
-            Potion randomPotion = potionController.getRandomPotion();
-            potionController.usePotion(character2, randomPotion);
-            //System.out.println(character2.getName() + " uses " + randomPotion.getName() + "!");
+            potionController.assignRandomPotionToCharacter(character2);
+            potionController.usePotion(character2, character2.getPotions().get(random.nextInt(character2.getPotions().size())));
         } else {
-            System.out.println(character2.getName() + " has no potions to use!");
+            throw new IllegalStateException("Character has no potions");
         }
     }
-    public void equipWeapon(Character character1) {
-        WeaponController weaponController = new WeaponController();
-        weaponController.showAllWeapons();
-
-        menuView.clearBuffer(menuView.getScanner());
-        menuView.displayMessage("Choose a weapon to equip by number:");
-        int weaponChoice = menuView.getUserInt();
-        Weapon weapon = weaponController.getWeaponByIndex(weaponChoice - 1);
-        character1.setWeapon(weapon);
-        System.out.printf("%s equips %s!\n", character1.getName(), weapon.getName());
+    public void equipManualWeapon(Character character, int index) {
+        weaponController.equipWeapon(character, weaponController.getWeaponByIndex(index));
     }
 
     private void equipWeaponRandomly(Character character2) {
-        WeaponController weaponController = new WeaponController();
-
         Weapon[] allWeapons = weaponController.getWeapons();
         if (allWeapons.length == 0) {
-            menuView.displayMessage("No weapons available to equip.");
-            return;
+            throw new IllegalStateException("No weapons");
         }
         Weapon randomWeapon = weaponController.getRandomWeapon();
         character2.setWeapon(randomWeapon);

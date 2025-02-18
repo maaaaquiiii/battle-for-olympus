@@ -1,8 +1,7 @@
 package org.example.controller;
 
 import org.example.model.Weapon;
-
-import java.util.Arrays;
+import org.example.model.Characters.Character;
 import java.util.Random;
 
 
@@ -42,17 +41,8 @@ public class  WeaponController {
         }
     }
 
-    public void showWeapon(Weapon weapon) {
-        if (weapon != null) {
-            System.out.println(weapon);
-        }
-    }
-
-    public void showAllWeapons() {
-        System.out.println("All weapons");
-        for(Weapon w : weapons) {
-            showWeapon(w);
-        }
+    public void equipWeapon(Character character, Weapon weapon) {
+        character.setWeapon(weapon);
     }
 
     public Weapon getWeaponByIndex(int index) {

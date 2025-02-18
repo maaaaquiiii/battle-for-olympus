@@ -2,37 +2,32 @@ package org.example.controller;
 
 import org.example.model.CharacterFactory;
 import org.example.model.Characters.Character;
+import org.example.model.Potion;
 import org.example.model.Weapon;
-import org.example.view.CharacterView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 public class CharacterController {
-    private List<Character> mythologicalAnimals;
-    private List<Character> gods;
-    private List<Character> heroes;
-    private List<Character> humans;
-    private List<Character> titans;
-    private List<Character> selectedCharacters;
-    private PotionController potionController;
-    private CharacterView characterView;
-    private Random random;
+    private final Map<String, List<Character>> charactersByType;
+    private final List<Character> selectedCharacters;
+    private final PotionController potionController;
+    private final Random random;
 
     public CharacterController() {
-        this.mythologicalAnimals = new ArrayList<>();
-        this.gods = new ArrayList<>();
-        this.heroes = new ArrayList<>();
-        this.humans = new ArrayList<>();
-        this.titans = new ArrayList<>();
+        this.charactersByType = new HashMap<>();
         this.selectedCharacters = new ArrayList<>();
         this.potionController = new PotionController();
-        this.characterView = new CharacterView();
         this.random = new Random();
+        initializeCharacterCategories();
         createPredefinedCharacters();
+    }
+
+    private void initializeCharacterCategories() {
+        charactersByType.put("ANIMAL", new ArrayList<>());
+        charactersByType.put("GOD", new ArrayList<>());
+        charactersByType.put("HERO", new ArrayList<>());
+        charactersByType.put("HUMAN", new ArrayList<>());
+        charactersByType.put("TITAN", new ArrayList<>());
     }
 
     private void createPredefinedCharacters() {
@@ -62,57 +57,22 @@ public class CharacterController {
     }
 
     public Character createCharacter(String name, String type, int health, int attack, int defense) {
-        Character newCharacter = CharacterFactory.createCharacter(name, type, health, attack, defense);
-        return newCharacter;
+        return CharacterFactory.createCharacter(name, type, health, attack, defense);
     }
 
     public void addCharacter(Character character) {
-        switch (character.getType().toUpperCase()) {
-            case "ANIMAL" -> getMythologicalAnimals().add(character);
-            case "GOD" -> getGods().add(character);
-            case "HERO" -> getHeroes().add(character);
-            case "TITAN" -> getTitans().add(character);
-            default -> getHumans().add(character);
+        charactersByType.getOrDefault(character.getType().toUpperCase(), charactersByType.get("HUMAN"))
+                .add(character);
+    }
+
+    public void assignPotionToCharacter(Character character, Potion potion) {
+        if (potion != null) {
+            potionController.assignPotionToCharacter(character, potion);
         }
     }
 
-    public void assignPotionToCharacter(Character character) {
-        characterView.clearBuffer(characterView.getScanner());
-        characterView.displayMessage("Do you want to assign a potion manually or randomly? (manually/randomly) ");
-        String choice = characterView.getUserString();
-        if (choice.equalsIgnoreCase("manually")) {
-            potionController.showAllPotions();
-            characterView.displayMessage("What potion do you want to assign?");
-            int index = characterView.getUserInt();
-            potionController.assignPotionToCharacter(character, potionController.getPotionByIndex(index));
-            potionController.usePotion(character, potionController.getPotionByIndex(index));
-        } else {
-            potionController.assignRandomPotionToCharacter(character);
-        }
-    }
-
-    public List<Character> getMythologicalAnimals() {
-        return mythologicalAnimals;
-    }
-
-    public List<Character> getGods() {
-        return gods;
-    }
-
-    public List<Character> getHeroes() {
-        return heroes;
-    }
-
-    public List<Character> getTitans() {
-        return titans;
-    }
-
-    public List<Character> getHumans() {
-        return humans;
-    }
-
-    public List<Character> getSelectedCharacters() {
-        return selectedCharacters;
+    public void usePotion(Character character, Potion potion) {
+        potionController.usePotion(character, potion);
     }
 
     public void equipWeapon(Character character, Weapon weapon) {
@@ -137,12 +97,8 @@ public class CharacterController {
     }
 
     public List<Character> getAllCharacters() {
-        return Stream.concat(Stream.concat(
-                Stream.concat(
-                        mythologicalAnimals.stream(),
-                        gods.stream()),
-                        heroes.stream()),
-                        titans.stream())
-                .collect(Collectors.toList());
+        return charactersByType.values().stream()
+                .flatMap(Collection::stream)
+                .toList();
     }
 }
