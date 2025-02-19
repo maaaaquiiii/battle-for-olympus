@@ -6,10 +6,7 @@ import java.util.List;
 
 public class CharacterView extends View {
     public void displayCharacterDetails(Character character) {
-        displayMessage("Character name: " + character.getName());
-        displayMessage("Health: " + character.getHealth());
-        displayMessage("Attack: " + character.getAttack());
-        displayMessage("Defense: " + character.getDefense());
+        displayMessage("Character name: " + character.getName() + "\thealth: " + character.getHealth() + "\tattack: " + character.getAttack() + "\tdefense: " + character.getDefense());
         if(character.getWeapon() != null) {
             displayMessage("Weapon equipped: " + character.getWeapon().getName());
         }
@@ -26,8 +23,6 @@ public class CharacterView extends View {
         if(!character.getPotions().isEmpty()) {
             displayMessage("List of potions that character has");
             character.getPotions().forEach(System.out::println);
-        } else {
-            displayMessage("The character has no potions");
         }
     }
 }

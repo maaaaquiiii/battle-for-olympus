@@ -20,11 +20,11 @@ public class  WeaponController {
 
     public void createPredefinedWeapons() {
         addWeapon(createWeapon("Harpe", 50));
-        addWeapon(createWeapon("Cronus' Scythe", 75));
+        addWeapon(createWeapon("Cronus Scythe", 75));
         addWeapon(createWeapon("Bow of Artemis", 60));
-        addWeapon(createWeapon("Achilles' Spear", 65));
-        addWeapon(createWeapon("Eurytus' Bow", 50));
-        addWeapon(createWeapon("Zeus' Thunderbolt", 75));
+        addWeapon(createWeapon("Achilles Spear", 65));
+        addWeapon(createWeapon("Eurytus Bow", 50));
+        addWeapon(createWeapon("Zeus Thunderbolt", 75));
     }
 
     public Weapon createWeapon(String name, int attackBonus) {

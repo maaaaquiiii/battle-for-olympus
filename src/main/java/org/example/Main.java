@@ -3,21 +3,21 @@ package org.example;
 import org.example.model.Characters.Character;
 import org.example.controller.CharacterController;
 import org.example.controller.CombatController;
-import org.example.view.View;
-import org.example.view.MenuView;
 import org.example.view.CharacterView;
+import org.example.view.CombatView;
+import org.example.view.MenuView;
+import org.example.view.View;
 
 import java.util.List;
 
 import static java.lang.System.exit;
 
-
 public class Main {
     private static CharacterController characterController = new CharacterController();
-    private static CombatController combatController = new CombatController();
     private static View view = new View();
     private static MenuView menuView = new MenuView();
     private static CharacterView characterView = new CharacterView();
+    private static CombatView combatView = new CombatView();
 
 
     public static void main(String[] args) {
@@ -110,41 +110,24 @@ public class Main {
     private static void manualSelection() {
         Character character1 = selectOrCreateCharacter();
         Character character2 = selectOrCreateCharacter();
-        view.displayMessage("For the second character, do you want it to be against the machine (random) or against another player (manual)? (true -> random, false -> manual)");
-        boolean isRandom = view.getUserBoolean();
-        combatController.initiateCombat(character1, character2, isRandom);
+        combatView.startCombat(character1, character2);
     }
 
 
     private static void oneRandomOneManual() {
         Character character1 = selectOrCreateCharacter();
         Character character2 = characterController.getRandomCharacter();
-        view.displayMessage("For the second character, do you want it to be against the machine (random) or against another player (manual)? (true -> random, false -> manual)");
-        boolean isRandom = view.getUserBoolean();
-        initiateCombat(character1, character2, isRandom);
+        combatView.startCombat(character1, character2);
     }
 
     private static void bothRandom() {
         Character character1 = characterController.getRandomCharacter();
         Character character2 = characterController.getRandomCharacter();
-        view.displayMessage("For the second character, do you want it to be against the machine (random) or against another player (manual)? (true -> random, false -> manual)");
-        boolean isRandom = view.getUserBoolean();
-        initiateCombat(character1, character2, isRandom);
+        combatView.startCombat(character1, character2);
     }
 
     private static void exitGame() {
         System.out.println("Exiting...");
         exit(0);
-    }
-
-    private static void initiateCombat(Character character1, Character character2, boolean isPlayer2Random) {
-        boolean isCombatOver = false;
-        while (!isCombatOver) {
-            combatController.characterTurn(character1, character2, false);
-            if(!character2.isAlive()) {
-                isCombatOver = true;
-            }
-            combatController.characterTurn(character2, character1, isPlayer2Random);
-        }
     }
 }

@@ -17,9 +17,6 @@ public class WeaponView extends View {
     }
 
     public int getWeaponIndexFromUser() {
-        displayMessage("Choose a weapon from the following list:");
-        Weapon[] weapons = weaponController.getWeapons();
-        displayWeaponsDetails();
         displayMessage("Enter the number of the weapon you want to equip:");
         return getUserInt() - 1;
     }

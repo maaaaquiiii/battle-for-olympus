@@ -18,14 +18,16 @@ public class View {
     }
 
     public String getUserString() {
+        clearBuffer(scanner);
         return scanner.nextLine();
     }
 
     public boolean getUserBoolean() {
+        clearBuffer(scanner);
         return scanner.nextBoolean();
     }
 
-    public static void clearBuffer(Scanner scanner) {
+    private static void clearBuffer(Scanner scanner) {
         if (scanner.hasNextLine()) {
             scanner.nextLine(); //clear the buffer
         }

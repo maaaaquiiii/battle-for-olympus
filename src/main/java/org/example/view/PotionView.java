@@ -7,6 +7,7 @@ import java.util.List;
 
 public class PotionView extends View {
     private static PotionController potionController = new PotionController();
+
     private String getPotionDescription(Potion potion) {
         StringBuilder description = new StringBuilder();
         if (potion.getHealthBoost() > 0) {
@@ -43,14 +44,12 @@ public class PotionView extends View {
 
         displayMessage("Enter the number of the potion you want to use:");
         int userChoice = getUserInt();
-
-        // Validación simple para asegurarnos de que el usuario elija una opción válida
         while (userChoice < 1 || userChoice > potions.size()) {
             displayMessage("Invalid choice. Please enter a valid number between 1 and " + potions.size() + ":");
             userChoice = getUserInt();
         }
 
-        return userChoice - 1; // Restar 1 para el índice 0
+        return userChoice - 1;
     }
 
 }
