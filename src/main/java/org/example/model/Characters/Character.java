@@ -32,10 +32,6 @@ public abstract class Character {
         if (this.health < 0) this.health = 0;
     }
 
-    public void attack(Character opponent) {
-        attack(opponent, 1);
-    }
-
     public void attack(Character opponent, int multiplier) {
         int damage = this.attack * multiplier;
         opponent.receiveDamage(damage);

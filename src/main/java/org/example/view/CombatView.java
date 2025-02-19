@@ -1,6 +1,5 @@
 package org.example.view;
 
-//import org.example.controller.WeaponController;
 import org.example.model.Characters.Character;
 import org.example.controller.CombatController;
 
@@ -12,13 +11,13 @@ public class CombatView extends View {
     private final CharacterView characterView = new CharacterView();
 
     public void startCombat(Character character1, Character character2) {
-        displayCombatState(character1);
-        displayCombatState(character2);
         displayMessage("For the second character, do you want it to be against the machine (random) or against another player (manual)? (true -> random, false -> manual)");
         boolean isRandom = getUserBoolean();
 
+
         displayMessage("Combat starts!");
-        while (character1.isAlive() || character2.isAlive()) {
+        displayMessage(character1.getName() + " will face the " + character2.getName());
+        while (character1.isAlive() && character2.isAlive()) {
             displayCharacterTurn(character1, character2);
             if(isRandom == true) {
                 displayRandomCharacterTurn(character2, character1);
@@ -34,31 +33,30 @@ public class CombatView extends View {
     }
 
     private void displayRandomCharacterTurn(Character attacker, Character defender) {
+        displayMessage(attacker.getName() + "'s turn!");
         combatController.randomCharacterTurn(attacker, defender);
-        displayCombatState(attacker);
         displayCombatState(defender);
     }
 
-    private void displayCharacterTurn(Character attacker, Character character2) {
-
+    private void displayCharacterTurn(Character attacker, Character defender) {
         int action = actionTurn(attacker);
         if (action == 1) {
-            combatController.attack(attacker, character2);
+            combatController.attack(attacker, defender);
         } else if (action == 2) {
             int potionIndex = getPotionIndexFromUser(attacker);
-            combatController.useManualPotion(attacker, potionIndex);
+            potionView.displayAssignedPotion(attacker, potionIndex);
+            potionView.usePotion(attacker);
         } else if (action == 3) {
             int weaponIndex = getWeaponIndexFromUser();
             combatController.equipManualWeapon(attacker, weaponIndex);
         } else {
             displayMessage("Invalid action. Please try again.");
         }
-        displayCombatState(attacker);
-        displayCombatState(character2);
+        displayCombatState(defender);
     }
 
     private int actionTurn(Character character) {
-        displayMessage(character.getName() + "'s turn!");
+        displayMessage("\n" + character.getName() + "'s turn!");
         displayActions();
         return getUserInt();
     }
@@ -73,20 +71,21 @@ public class CombatView extends View {
 
     private int getPotionIndexFromUser(Character character) {
         potionView.displayPotions(character.getPotions());
+        clearBuffer();
         displayMessage("Enter the number of the potion you want to use:");
         return potionView.getPotionIndexFromUser();
     }
 
     private int getWeaponIndexFromUser() {
-        displayMessage("Choose a weapon from the following list:");
         weaponView.displayWeaponsDetails();
-        displayMessage("Enter the number of the weapon you want to equip:");
+        displayMessage("Choose a weapon from the following list:");
         return weaponView.getWeaponIndexFromUser();
     }
 
 
     private void displayCombatState(Character character) {
-        displayMessage("\nCurrent" + character.getName() + " status:");
+        displayMessage("--------------------------");
+        displayMessage("Current status of the opponent");
         characterView.displayCharacterDetails(character);
         displayMessage("--------------------------");
     }

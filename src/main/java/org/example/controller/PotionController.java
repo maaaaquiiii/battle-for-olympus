@@ -35,7 +35,9 @@ public class PotionController {
     }
 
     public void assignRandomPotionToCharacter(Character character) {
-        character.addPotion(getRandomPotion());
+        Potion potion = getRandomPotion();
+        character.addPotion(potion);
+        System.out.println(character.getName() + " has been assigned " + potion.getName());
     }
 
     public void assignPotionToCharacter(Character character, Potion potion) {

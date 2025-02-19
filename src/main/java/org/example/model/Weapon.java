@@ -20,6 +20,6 @@ public class Weapon {
 
     @Override
     public String toString() {
-        return String.format("Weapon: %s\tattack: %d\n", getName(), getAttackBonus());
+        return String.format("%s\tattack: %d\n", getName(), getAttackBonus());
     }
 }

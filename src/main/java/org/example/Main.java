@@ -2,15 +2,15 @@ package org.example;
 
 import org.example.model.Characters.Character;
 import org.example.controller.CharacterController;
-import org.example.controller.CombatController;
-import org.example.view.CharacterView;
 import org.example.view.CombatView;
-import org.example.view.MenuView;
 import org.example.view.View;
+import org.example.view.MenuView;
+import org.example.view.CharacterView;
 
 import java.util.List;
 
 import static java.lang.System.exit;
+
 
 public class Main {
     private static CharacterController characterController = new CharacterController();
@@ -18,6 +18,7 @@ public class Main {
     private static MenuView menuView = new MenuView();
     private static CharacterView characterView = new CharacterView();
     private static CombatView combatView = new CombatView();
+
 
 
     public static void main(String[] args) {
@@ -69,12 +70,9 @@ public class Main {
 
         if (character == null) {
             view.displayMessage("Character not found. Please try again.");
-            return selectExistingCharacter();  // Si no se encuentra, volver a intentar
-        } else {
-            view.displayMessage("You selected the character: ");
-            characterView.displayCharacterDetails(character);
-            return character;
+            return selectExistingCharacter();
         }
+        return character;
     }
 
     private static Character createNewCharacter() {

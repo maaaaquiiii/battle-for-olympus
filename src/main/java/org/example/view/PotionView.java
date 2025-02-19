@@ -1,6 +1,7 @@
 package org.example.view;
 
 import org.example.model.Potion;
+import org.example.model.Characters.Character;
 import org.example.controller.PotionController;
 
 import java.util.List;
@@ -32,8 +33,24 @@ public class PotionView extends View {
         });
     }
 
-    public void displayPotionUsed(Potion potion) {
-        displayMessage("You used " + potion.getName() + "!");
+    public void displayAssignedPotion(Character character, int index) {
+        Potion potion = potionController.getPotionByIndex(index);
+        potionController.assignPotionToCharacter(character, potion);
+        displayMessage(character.getName() + " has been assigned " + potion.getName());
+    }
+
+    public void usePotion(Character character) {
+        clearBuffer();
+        displayMessage("Do you want to use any potion? (y/n)");
+        char answer = getUserString().toLowerCase().charAt(0);
+        if(answer == 'y') {
+            displayMessage("Choose a potion from the following list:");
+            displayPotions(character.getPotions());
+            potionController.usePotion(character, potionController.getPotionByIndex(getUserInt() - 1));
+            displayMessage(character.getName() + " drank " + potionController.getPotionByIndex(getUserInt() - 1).getName());
+        } else {
+            displayMessage(character.getName() + " has decided to save the potion");
+        }
     }
 
     public int getPotionIndexFromUser() {

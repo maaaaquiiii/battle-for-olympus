@@ -7,13 +7,11 @@ import org.example.model.Weapon;
 import java.util.Random;
 
 public class CombatController {
-    private final CharacterController characterController;
     private final PotionController potionController;
     private final WeaponController weaponController;
     private final Random random;
 
     public CombatController() {
-        this.characterController = new CharacterController();
         this.potionController = new PotionController();
         this.weaponController = new WeaponController();
         this.random = new Random();
@@ -21,6 +19,7 @@ public class CombatController {
 
     public void randomCharacterTurn(Character attacker, Character defender) {
         int action = getRandomAction();
+        System.out.println(attacker.getName() + " has chosen the option: " + action);
         switch (action) {
             case 2 -> character2UsePotion(attacker);
             case 3 -> equipWeaponRandomly(attacker);
@@ -35,25 +34,26 @@ public class CombatController {
     public void attack(Character attacker, Character defender) {
         int damageMultiplier = 1;
         if (attacker.isCriticalHit()) {
+            System.out.println("Critical Hit! Damage x3");
             damageMultiplier = 3;
+
         }
         attacker.attack(defender, damageMultiplier);
-    }
-
-    public void useManualPotion(Character character, int index) {
-        if(!character.getPotions().isEmpty()) {
-            Potion potion = potionController.getPotionByIndex(index);
-            potionController.assignPotionToCharacter(character, potion);
-            potionController.usePotion(character, potion);
-        }
+        System.out.println(attacker.getName() + " attacks " + defender.getName() + " and deals " + attacker.getAttack() + " damage.");
+        System.out.println(defender.getName() + " now has " + defender.getHealth() + " health.");
     }
 
     private void character2UsePotion(Character character2) {
+        potionController.assignRandomPotionToCharacter(character2);
         if (!character2.getPotions().isEmpty()) {
-            potionController.assignRandomPotionToCharacter(character2);
-            potionController.usePotion(character2, character2.getPotions().get(random.nextInt(character2.getPotions().size())));
+            int usePotion = random.nextInt(0, 1);
+            System.out.println("usePotion number: " + usePotion);
+            if(usePotion == 0) {
+                potionController.usePotion(character2, character2.getPotions().get(random.nextInt(character2.getPotions().size())));
+            }
+            System.out.println(character2.getName() + " has decided save the potion");
         } else {
-            throw new IllegalStateException("Character has no potions");
+            System.err.println("Character has no potions");
         }
     }
     public void equipManualWeapon(Character character, int index) {
@@ -63,7 +63,7 @@ public class CombatController {
     private void equipWeaponRandomly(Character character2) {
         Weapon[] allWeapons = weaponController.getWeapons();
         if (allWeapons.length == 0) {
-            throw new IllegalStateException("No weapons");
+            System.err.println("No weapons");
         }
         Weapon randomWeapon = weaponController.getRandomWeapon();
         character2.setWeapon(randomWeapon);

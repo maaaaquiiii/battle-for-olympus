@@ -44,7 +44,7 @@ public class CharacterController {
         addCharacter(createCharacter("Hades", "god", 5500, 135, 20));
         addCharacter(createCharacter("Poseidon", "god", 5500, 130, 15));
         addCharacter(createCharacter("Zeus", "god", 6000, 125, 20));
-        addCharacter(createCharacter("Aquiles", "hero", 4250, 115, 15));
+        addCharacter(createCharacter("Achilles", "hero", 4250, 115, 15));
         addCharacter(createCharacter("Heracles", "hero", 4500, 110, 20));
         addCharacter(createCharacter("Perseus", "hero", 4750, 120, 10));
         addCharacter(createCharacter("Theseus", "hero", 5000, 110, 15));
@@ -65,19 +65,19 @@ public class CharacterController {
                 .add(character);
     }
 
-    public void assignPotionToCharacter(Character character, Potion potion) {
-        if (potion != null) {
-            potionController.assignPotionToCharacter(character, potion);
-        }
-    }
-
-    public void usePotion(Character character, Potion potion) {
-        potionController.usePotion(character, potion);
-    }
-
-    public void equipWeapon(Character character, Weapon weapon) {
-        character.setWeapon(weapon);
-    }
+//    public void assignPotionToCharacter(Character character, Potion potion) {
+//        if (potion != null) {
+//            potionController.assignPotionToCharacter(character, potion);
+//        }
+//    }
+//
+//    public void usePotion(Character character, Potion potion) {
+//        potionController.usePotion(character, potion);
+//    }
+//
+//    public void equipWeapon(Character character, Weapon weapon) {
+//        character.setWeapon(weapon);
+//    }
 
     public Character findCharacterByName(String name) {
         return getAllCharacters().stream()
