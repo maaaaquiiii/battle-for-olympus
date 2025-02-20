@@ -64,6 +64,7 @@ public class Main {
         }
         view.displayMessage("List of all characters");
         characterView.displayCharacterList(characters);
+        view.clearBuffer();
         view.displayMessage("Enter the name of the character you want to select");
         String characterName = view.getUserString();
         Character character = characterController.findCharacterByName(characterName);
@@ -76,6 +77,7 @@ public class Main {
     }
 
     private static Character createNewCharacter() {
+        view.clearBuffer();
         view.displayMessage("Enter character's name:");
         String name = view.getUserString();
         view.displayMessage("Enter character's type (Animal, God, Hero, Human, Titan):");
@@ -88,8 +90,8 @@ public class Main {
         }
 
         int attack = 0;
-        while (attack < 10 || attack > 50) {
-            view.displayMessage("Enter character's attack (between 10 and 50):");
+        while (attack < 100 || attack > 200) {
+            view.displayMessage("Enter character's attack (between 100 and 200):");
             attack = view.getUserInt();
         }
 

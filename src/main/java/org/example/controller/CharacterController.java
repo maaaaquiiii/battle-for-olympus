@@ -31,29 +31,29 @@ public class CharacterController {
     }
 
     private void createPredefinedCharacters() {
-        addCharacter(createCharacter("Centaur", "animal", 3500, 100, 15));
-        addCharacter(createCharacter("Cerberus", "animal", 3750, 105, 10));
-        addCharacter(createCharacter("Chimera", "animal", 3750, 100, 15));
-        addCharacter(createCharacter("Griffin", "animal", 4000, 105, 10));
-        addCharacter(createCharacter("Harpy", "animal", 3750, 100, 15));
-        addCharacter(createCharacter("Minotaur", "animal", 4000, 105, 15));
-        addCharacter(createCharacter("Apollo", "god", 5000, 130, 10));
-        addCharacter(createCharacter("Ares", "god", 5500, 125, 20));
-        addCharacter(createCharacter("Artemis", "god", 5750, 135, 15));
-        addCharacter(createCharacter("Athena", "god", 5500, 130, 10));
-        addCharacter(createCharacter("Hades", "god", 5500, 135, 20));
-        addCharacter(createCharacter("Poseidon", "god", 5500, 130, 15));
-        addCharacter(createCharacter("Zeus", "god", 6000, 125, 20));
-        addCharacter(createCharacter("Achilles", "hero", 4250, 115, 15));
-        addCharacter(createCharacter("Heracles", "hero", 4500, 110, 20));
-        addCharacter(createCharacter("Perseus", "hero", 4750, 120, 10));
-        addCharacter(createCharacter("Theseus", "hero", 5000, 110, 15));
-        addCharacter(createCharacter("Cronus", "titan", 9000, 115, 20));
-        addCharacter(createCharacter("Hyperion", "titan", 7500, 150, 20));
-        addCharacter(createCharacter("Oceanus", "titan", 8500, 145, 15));
-        addCharacter(createCharacter("Rhea", "titan", 9500, 140, 20));
-        addCharacter(createCharacter("Thea", "titan", 9000, 145, 15));
-        addCharacter(createCharacter("Themis", "titan", 8000, 140, 20));
+        addCharacter(createCharacter("Centaur", "animal", 3500, 150, 15));
+        addCharacter(createCharacter("Cerberus", "animal", 3750, 155, 10));
+        addCharacter(createCharacter("Chimera", "animal", 3750, 150, 15));
+        addCharacter(createCharacter("Griffin", "animal", 4000, 155, 10));
+        addCharacter(createCharacter("Harpy", "animal", 3750, 160, 15));
+        addCharacter(createCharacter("Minotaur", "animal", 4000, 165, 15));
+        addCharacter(createCharacter("Apollo", "god", 5000, 190, 10));
+        addCharacter(createCharacter("Ares", "god", 5500, 195, 20));
+        addCharacter(createCharacter("Artemis", "god", 5750, 190, 15));
+        addCharacter(createCharacter("Athena", "god", 5500, 180, 10));
+        addCharacter(createCharacter("Hades", "god", 5500, 185, 20));
+        addCharacter(createCharacter("Poseidon", "god", 5500, 190, 15));
+        addCharacter(createCharacter("Zeus", "god", 6000, 195, 20));
+        addCharacter(createCharacter("Achilles", "hero", 4250, 175, 15));
+        addCharacter(createCharacter("Heracles", "hero", 4500, 170, 20));
+        addCharacter(createCharacter("Perseus", "hero", 4750, 175, 10));
+        addCharacter(createCharacter("Theseus", "hero", 5000, 180, 15));
+        addCharacter(createCharacter("Cronus", "titan", 9000, 200, 20));
+        addCharacter(createCharacter("Hyperion", "titan", 7500, 205, 20));
+        addCharacter(createCharacter("Oceanus", "titan", 8500, 205, 15));
+        addCharacter(createCharacter("Rhea", "titan", 9500, 200, 20));
+        addCharacter(createCharacter("Thea", "titan", 9000, 210, 15));
+        addCharacter(createCharacter("Themis", "titan", 8000, 205, 20));
     }
 
     public Character createCharacter(String name, String type, int health, int attack, int defense) {

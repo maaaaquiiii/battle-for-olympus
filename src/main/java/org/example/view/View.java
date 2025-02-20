@@ -22,7 +22,6 @@ public class View {
     }
 
     public boolean getUserBoolean() {
-        //clearBuffer(scanner);
         return scanner.nextBoolean();
     }
 
