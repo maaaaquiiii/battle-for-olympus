@@ -116,11 +116,6 @@ public abstract class Character {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
     public String toString() {
         return String.format("Character: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\n",
                 getName(), getHealth(), getAttack(), getDefense(), getWeapon() == null ? "None" : getWeapon());

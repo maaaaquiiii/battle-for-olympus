@@ -27,7 +27,12 @@ public class Potion {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Potion potion = (Potion) o;
-        return healthBoost == potion.healthBoost && defenseBoost == potion.defenseBoost && Objects.equals(name, potion.name);
+        return name.equals(potion.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

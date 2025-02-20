@@ -23,7 +23,7 @@ public class Weapon {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Weapon weapon = (Weapon) o;
-        return attackBonus == weapon.attackBonus && Objects.equals(name, weapon.name);
+        return name.equals(weapon.name);
     }
 
     @Override

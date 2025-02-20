@@ -70,9 +70,9 @@ public class CombatView extends View {
     }
 
     private int getPotionIndexFromUser(Character character) {
-        potionView.displayPotions(character.getPotions());
+        //potionView.displayPotions(character.getPotions());
         clearBuffer();
-        displayMessage("Enter the number of the potion you want to use:");
+//        displayMessage("Enter the number of the potion you want to use:");
         return potionView.getPotionIndexFromUser();
     }
 

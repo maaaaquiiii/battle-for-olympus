@@ -41,16 +41,21 @@ public class PotionController {
     }
 
     public void assignPotionToCharacter(Character character, Potion potion) {
-        if (potion != null) {
-            character.addPotion(potion);
+        if (character == null || potion == null) {
+            throw new IllegalArgumentException("Character and potion must not be null.");
         }
+        character.addPotion(potion);
     }
 
     public void usePotion(Character character, Potion potion) {
-        if (potion != null && character.getPotions().contains(potion)) {
-            applyPotionEffects(character, potion);
-            character.removePotion(potion);
+        if (character == null || potion == null) {
+            throw new IllegalArgumentException("Character and potion must not be null.");
         }
+        if (!character.getPotions().contains(potion)) {
+            throw new NoSuchElementException("Potion not found in character's inventory.");
+        }
+        applyPotionEffects(character, potion);
+        character.removePotion(potion);
     }
 
 
@@ -71,6 +76,6 @@ public class PotionController {
 
 
     public List<Potion> getPotions() {
-        return Collections.unmodifiableList(potions);
+        return potions;
     }
 }

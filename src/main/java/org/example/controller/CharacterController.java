@@ -83,15 +83,14 @@ public class CharacterController {
         return getAllCharacters().stream()
                 .filter(c -> c.getName().equalsIgnoreCase(name))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new NoSuchElementException("Character not found: " + name));
     }
 
     public Character getRandomCharacter() {
         List<Character> allCharacters = getAllCharacters();
 
         if(allCharacters.isEmpty()) {
-            System.err.println("Error: No characters available.");
-            return null;
+            throw new IllegalStateException("No characters available.");
         }
         return allCharacters.get(random.nextInt(allCharacters.size()));
     }

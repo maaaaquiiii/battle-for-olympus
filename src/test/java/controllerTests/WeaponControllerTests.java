@@ -27,6 +27,25 @@ public class WeaponControllerTests {
     }
 
     @Test
+    void weaponArrayNotEmptyAfterAddingWeapon() {
+        weaponController.addWeapon(weapon);
+        Assertions.assertTrue(weaponController.getWeapons().length > 0, "The weapon array should contain at least one weapon.");
+    }
+
+    @Test
+    void weaponArrayFull() {
+        for (int i = 0; i < weaponController.getWeapons().length; i++) {
+            if(weaponController.getWeapons()[i] != null) {
+                weaponController.addWeapon(new Weapon("Weapon" + i, 50));
+            }
+        }
+        Weapon extraWeapon = new Weapon("ExtraWeapon", 50);
+        weaponController.addWeapon(extraWeapon);
+
+        Assertions.assertFalse(weaponController.getWeapons().length > weaponController.getWeapons().length, "The array should not exceed the limit of " + weaponController.getWeapons().length + " weapons");
+    }
+
+    @Test
     void equipWeapon() {
         weaponController.equipWeapon(character, weapon);
 

@@ -32,13 +32,11 @@ public class  WeaponController {
     }
 
     public boolean addWeapon(Weapon weapon) {
-        if (counter < MAX_WEAPONS) {
-            weapons[counter++] = weapon;
-            return true;
-        } else {
-            System.err.println("Weapon limit reached. Cannot add more weapons.");
-            return false;
+        if (counter >= MAX_WEAPONS) {
+            throw new IllegalStateException("Weapon limit reached. Cannot add more weapons.");
         }
+        weapons[counter++] = weapon;
+        return true;
     }
 
     public void equipWeapon(Character character, Weapon weapon) {
@@ -46,18 +44,15 @@ public class  WeaponController {
     }
 
     public Weapon getWeaponByIndex(int index) {
-        if(index >= 0 && index < counter) {
-            return weapons[index];
-        } else {
-            System.err.println("Invalid index. Returning null.");
-            return null;
+        if (index < 0 || index >= counter) {
+            throw new IndexOutOfBoundsException("Invalid weapon index: " + index);
         }
+        return weapons[index];
     }
 
     public Weapon getRandomWeapon() {
-        if(counter == 0) {
-            System.err.println("No weapons available. Returning null.");
-            return null;
+        if (counter == 0) {
+            throw new IllegalStateException("No weapons available.");
         }
         return weapons[random.nextInt(counter)];
     }

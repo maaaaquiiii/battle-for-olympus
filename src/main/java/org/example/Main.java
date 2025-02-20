@@ -8,6 +8,7 @@ import org.example.view.MenuView;
 import org.example.view.CharacterView;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static java.lang.System.exit;
 
@@ -62,18 +63,19 @@ public class Main {
             view.displayMessage("No characters available. Proceeding to create a new character.");
             return selectOrCreateCharacter();
         }
+
         view.displayMessage("List of all characters");
         characterView.displayCharacterList(characters);
         view.clearBuffer();
-        view.displayMessage("Enter the name of the character you want to select");
+        view.displayMessage("Enter the name of the character you want to select:");
         String characterName = view.getUserString();
-        Character character = characterController.findCharacterByName(characterName);
 
-        if (character == null) {
+        try {
+            return characterController.findCharacterByName(characterName);
+        } catch (NoSuchElementException e) {
             view.displayMessage("Character not found. Please try again.");
             return selectExistingCharacter();
         }
-        return character;
     }
 
     private static Character createNewCharacter() {
@@ -85,26 +87,43 @@ public class Main {
 
         int health = 0;
         while (health < 1000 || health > 9000) {
-            view.displayMessage("Enter character's health (between 1000 and 9000):");
-            health = view.getUserInt();
+            try {
+                view.displayMessage("Enter character's health (between 1000 and 9000):");
+                health = view.getUserInt();
+            } catch (NumberFormatException e) {
+                view.displayMessage("Invalid input. Please enter a number.");
+            }
         }
 
         int attack = 0;
         while (attack < 100 || attack > 200) {
-            view.displayMessage("Enter character's attack (between 100 and 200):");
-            attack = view.getUserInt();
+            try {
+                view.displayMessage("Enter character's attack (between 100 and 200):");
+                attack = view.getUserInt();
+            } catch (NumberFormatException e) {
+                view.displayMessage("Invalid input. Please enter a number.");
+            }
         }
 
         int defense = 0;
         while (defense < 5 || defense > 20) {
-            view.displayMessage("Enter character's defense (between 5 and 20):");
-            defense = view.getUserInt();
+            try {
+                view.displayMessage("Enter character's defense (between 5 and 20):");
+                defense = view.getUserInt();
+            } catch (NumberFormatException e) {
+                view.displayMessage("Invalid input. Please enter a number.");
+            }
         }
 
-        Character newCharacter = characterController.createCharacter(name, type, health, attack, defense);
-        characterController.addCharacter(newCharacter);
-        view.displayMessage("Character created successfully!");
-        return newCharacter;
+        try {
+            Character newCharacter = characterController.createCharacter(name, type, health, attack, defense);
+            characterController.addCharacter(newCharacter);
+            view.displayMessage("Character created successfully!");
+            return newCharacter;
+        } catch (IllegalArgumentException e) {
+            view.displayMessage("Invalid character data: " + e.getMessage());
+            return createNewCharacter();
+        }
     }
 
     private static void manualSelection() {
@@ -116,13 +135,30 @@ public class Main {
 
     private static void oneRandomOneManual() {
         Character character1 = selectOrCreateCharacter();
-        Character character2 = characterController.getRandomCharacter();
+        Character character2;
+
+        try {
+            character2 = characterController.getRandomCharacter();
+        } catch (IllegalStateException e) {
+            view.displayMessage("No characters available for random selection. Creating a new character.");
+            character2 = createNewCharacter();
+        }
+
         combatView.startCombat(character1, character2);
     }
 
     private static void bothRandom() {
-        Character character1 = characterController.getRandomCharacter();
-        Character character2 = characterController.getRandomCharacter();
+        Character character1, character2;
+
+        try {
+            character1 = characterController.getRandomCharacter();
+            character2 = characterController.getRandomCharacter();
+        } catch (IllegalStateException e) {
+            view.displayMessage("Not enough characters for random selection. Creating two new characters.");
+            character1 = createNewCharacter();
+            character2 = createNewCharacter();
+        }
+
         combatView.startCombat(character1, character2);
     }
 
