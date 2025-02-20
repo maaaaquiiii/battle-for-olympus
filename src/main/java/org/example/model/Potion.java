@@ -1,5 +1,7 @@
 package org.example.model;
 
+import java.util.Objects;
+
 public class Potion {
     private String name;
     private int healthBoost;
@@ -19,6 +21,13 @@ public class Potion {
     }
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Potion potion = (Potion) o;
+        return healthBoost == potion.healthBoost && defenseBoost == potion.defenseBoost && Objects.equals(name, potion.name);
     }
 
     @Override

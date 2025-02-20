@@ -19,12 +19,12 @@ public class  WeaponController {
     }
 
     public void createPredefinedWeapons() {
-        addWeapon(createWeapon("Harpe", 50));
-        addWeapon(createWeapon("Cronus Scythe", 75));
+        addWeapon(createWeapon("Helm of darkness", 65));
+        addWeapon(createWeapon("Aegis", 50));
+        addWeapon(createWeapon("Trident of Poseidon", 75));
         addWeapon(createWeapon("Bow of Artemis", 60));
-        addWeapon(createWeapon("Achilles Spear", 65));
-        addWeapon(createWeapon("Eurytus Bow", 50));
-        addWeapon(createWeapon("Zeus Thunderbolt", 75));
+        addWeapon(createWeapon("Caduceus", 50));
+        addWeapon(createWeapon("Thunderbolt of Zeus", 75));
     }
 
     public Weapon createWeapon(String name, int attackBonus) {
@@ -36,7 +36,7 @@ public class  WeaponController {
             weapons[counter++] = weapon;
             return true;
         } else {
-            System.out.println("Weapon limit reached. Cannot add more weapons.");
+            System.err.println("Weapon limit reached. Cannot add more weapons.");
             return false;
         }
     }
@@ -49,14 +49,14 @@ public class  WeaponController {
         if(index >= 0 && index < counter) {
             return weapons[index];
         } else {
-            System.out.println("Invalid index. Returning null.");
+            System.err.println("Invalid index. Returning null.");
             return null;
         }
     }
 
     public Weapon getRandomWeapon() {
         if(counter == 0) {
-            System.out.println("No weapons available. Returning null.");
+            System.err.println("No weapons available. Returning null.");
             return null;
         }
         return weapons[random.nextInt(counter)];

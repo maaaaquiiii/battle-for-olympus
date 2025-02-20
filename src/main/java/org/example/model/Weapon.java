@@ -1,5 +1,7 @@
 package org.example.model;
 
+import java.util.Objects;
+
 public class Weapon {
     private String name;
     private int attackBonus;
@@ -17,6 +19,12 @@ public class Weapon {
         return attackBonus;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Weapon weapon = (Weapon) o;
+        return attackBonus == weapon.attackBonus && Objects.equals(name, weapon.name);
+    }
 
     @Override
     public String toString() {

@@ -1,6 +1,8 @@
 package controllerTests;
 
 import org.example.controller.WeaponController;
+import org.example.model.CharacterFactory;
+import org.example.model.Characters.Character;
 import org.example.model.Weapon;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,37 +10,33 @@ import org.junit.jupiter.api.Test;
 
 public class WeaponControllerTests {
     private WeaponController weaponController;
+    private Character character;
+    private Weapon weapon;
 
     @BeforeEach
     void setUp() {
         weaponController = new WeaponController();
+        character = CharacterFactory.createCharacter("Hermes", "god", 4500, 30, 10);
+        weapon = weaponController.createWeapon("Helm of darkness", 65);
     }
 
     @Test
     void createWeapon() {
-        Weapon weapon = weaponController.createWeapon("Achilles Sword", 30);
-
-        Assertions.assertEquals("Achilles Sword", weapon.getName());
-        Assertions.assertEquals(30, weapon.getAttackBonus());
+        Assertions.assertEquals("Helm of darkness", weapon.getName());
+        Assertions.assertEquals(65, weapon.getAttackBonus());
     }
 
     @Test
-    void createWeaponWithoutSpace() {
-        weaponController.createWeapon("Achilles Sword", 30);
-        Weapon[] weapons = weaponController.getWeapons();
+    void equipWeapon() {
+        weaponController.equipWeapon(character, weapon);
 
-        Assertions.assertEquals(25, weapons.length);
-
-        Assertions.assertEquals("Achilles Sword", weapons[24].getName());
-        Assertions.assertEquals(30, weapons[24].getAttackBonus());
+        Assertions.assertEquals("Helm of darkness", character.getWeapon().getName());
     }
 
-    
-
     @Test
-    void getWeapons() {
-        Weapon[] weapons = weaponController.getWeapons();
+    void getWeaponByIndex() {
+        weaponController.addWeapon(weapon);
 
-        Assertions.assertEquals(25, weapons.length);
+        Assertions.assertEquals(weapon, weaponController.getWeaponByIndex(0));
     }
 }
