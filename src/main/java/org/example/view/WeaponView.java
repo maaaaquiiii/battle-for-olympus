@@ -4,9 +4,9 @@ import org.example.model.Weapon;
 import org.example.controller.WeaponController;
 
 public class WeaponView extends View {
-    private static WeaponController weaponController = new WeaponController();
+    private static final WeaponController WEAPON_CONTROLLER = new WeaponController();
     public void displayWeaponsDetails() {
-        Weapon[] weapons = weaponController.getWeapons();
+        Weapon[] weapons = WEAPON_CONTROLLER.getWeapons();
 
         for (int i = 0; i < weapons.length; i++) {
             Weapon weapon = weapons[i];
