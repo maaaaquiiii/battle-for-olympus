@@ -58,7 +58,6 @@ public class PotionController {
         character.removePotion(potion);
     }
 
-
     public Potion getPotionByIndex(int index) {
         if (index >= 0 && index < potions.size()) {
             return potions.get(index);
@@ -73,7 +72,6 @@ public class PotionController {
     public Potion getRandomPotion() {
         return potions.get(random.nextInt(potions.size()));
     }
-
 
     public List<Potion> getPotions() {
         return potions;

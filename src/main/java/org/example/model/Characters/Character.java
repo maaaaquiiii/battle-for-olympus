@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Character {
-    private String name;
-    private String type;
+    private final String name;
+    private final String type;
     private int health;
     private int attack;
     private int defense;
-    private double luckPercentage;
-    private List<Potion> potions;
+    private final double luckPercentage;
+    private final List<Potion> potions;
     private Weapon weapon;
 
     protected Character(Builder<?> characterBuilder) {
@@ -88,13 +88,7 @@ public abstract class Character {
     }
 
     public void removePotion(Potion potion) {
-        Iterator<Potion> iterator = potions.iterator();
-
-        while (iterator.hasNext()) {
-            if (iterator.next().equals(potion)) {
-                iterator.remove();
-            }
-        }
+        potions.remove(potion);
     }
 
     public void setWeapon(Weapon weapon) {

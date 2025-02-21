@@ -7,9 +7,9 @@ import java.util.Random;
 
 public class  WeaponController {
     private static final int MAX_WEAPONS = 25;
-    private Weapon[] weapons;
+    private final Weapon[] weapons;
     private int counter;
-    private Random random;
+    private final Random random;
 
     public WeaponController() {
         this.weapons = new Weapon[MAX_WEAPONS];
@@ -31,12 +31,11 @@ public class  WeaponController {
         return new Weapon(name, attackBonus);
     }
 
-    public boolean addWeapon(Weapon weapon) {
+    public void addWeapon(Weapon weapon) {
         if (counter >= MAX_WEAPONS) {
             throw new IllegalStateException("Weapon limit reached. Cannot add more weapons.");
         }
         weapons[counter++] = weapon;
-        return true;
     }
 
     public void equipWeapon(Character character, Weapon weapon) {

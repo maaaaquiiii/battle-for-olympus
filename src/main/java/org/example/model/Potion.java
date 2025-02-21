@@ -3,9 +3,9 @@ package org.example.model;
 import java.util.Objects;
 
 public class Potion {
-    private String name;
-    private int healthBoost;
-    private int defenseBoost;
+    private final String name;
+    private final int healthBoost;
+    private final int defenseBoost;
 
     private Potion(Builder potionBuilder) {
         this.name = potionBuilder.name;

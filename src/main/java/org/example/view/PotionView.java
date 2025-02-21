@@ -17,7 +17,7 @@ public class PotionView extends View {
         if (potion.getDefenseBoost() > 0) {
             description.append(" - Defense Boost: ").append(potion.getDefenseBoost());
         }
-        if (description.length() == 0) {
+        if (description.isEmpty()) {
             description.append(" - No boosts available.");
         }
 

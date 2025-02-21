@@ -1,8 +1,6 @@
 package controllerTests;
 
 import org.example.controller.CharacterController;
-import org.example.controller.PotionController;
-import org.example.model.CharacterFactory;
 import org.example.model.Characters.Character;
 
 import org.junit.jupiter.api.Assertions;
