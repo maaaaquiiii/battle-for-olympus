@@ -17,12 +17,15 @@ public class PotionController {
 
     private void createPredefinedPotions() {
         potions.addAll(Arrays.asList(
-                new Potion.Builder().name("Nectar of Ambrosia").healthBoost(400).build(),
+                new Potion.Builder().name("Nectar of Ambrosia").healthBoost(350).build(),
                 new Potion.Builder().name("Heracles' Strength").defenseBoost(25).build(),
-                new Potion.Builder().name("Asclepius' Elixir").healthBoost(450).build(),
+                new Potion.Builder().name("Asclepius' Elixir").healthBoost(375).build(),
+                new Potion.Builder().name("Hide of the Nemean Lion").defenseBoost(20).build(),
                 createPotion("Athena's Shield", 425, 25),
                 new Potion.Builder().name("Panacea's Remedy").healthBoost(400).build(),
-                createPotion("Iris Elixir", 325, 15)
+                new Potion.Builder().name("Rod of Asclepius").healthBoost(375).build(),
+                createPotion("Iris Elixir", 325, 15),
+                createPotion("Adamantium", 400, 15)
         ));
     }
 

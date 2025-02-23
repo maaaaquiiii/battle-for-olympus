@@ -9,28 +9,10 @@ import java.util.List;
 public class PotionView extends View {
     private static PotionController potionController = new PotionController();
 
-    private String getPotionDescription(Potion potion) {
-        StringBuilder description = new StringBuilder();
-        if (potion.getHealthBoost() > 0) {
-            description.append(" - Health Boost: ").append(potion.getHealthBoost());
-        }
-        if (potion.getDefenseBoost() > 0) {
-            description.append(" - Defense Boost: ").append(potion.getDefenseBoost());
-        }
-        if (description.isEmpty()) {
-            description.append(" - No boosts available.");
-        }
-
-        return description.toString();
-    }
-
     public void displayPotions(List<Potion> potions) {
         displayMessage("Available Potions:");
-        potions.forEach(potion -> {
-            if (potion != null) {
-                displayMessage(potion.getName() + getPotionDescription(potion));
-            }
-        });
+        potions.stream()
+                .forEach(potion -> displayMessage(potions.indexOf(potion) + 1 + ". " + potion));
     }
 
     public void displayAssignedPotion(Character character, int index) {
@@ -44,10 +26,11 @@ public class PotionView extends View {
         displayMessage("Do you want to use any potion? (y/n)");
         char answer = getUserString().toLowerCase().charAt(0);
         if(answer == 'y') {
-            displayMessage("Choose a potion from the following list:");
             displayPotions(character.getPotions());
-            potionController.usePotion(character, potionController.getPotionByIndex(getUserInt() - 1));
-            displayMessage(character.getName() + " drank " + potionController.getPotionByIndex(getUserInt() - 1).getName());
+            int index = getUserInt() - 1;
+            Potion potion = character.getPotions().get(index);
+            potionController.usePotion(character, potion);
+            displayMessage(character.getName() + " drank " + potion);
         } else {
             displayMessage(character.getName() + " has decided to save the potion");
         }
@@ -56,9 +39,7 @@ public class PotionView extends View {
     public int getPotionIndexFromUser() {
         displayMessage("Choose a potion from the following list:");
         List<Potion> potions = potionController.getPotions();
-        potions.stream()
-                .forEach(potion -> displayMessage(potions.indexOf(potion) + 1 + ". " + potion.getName() + getPotionDescription(potion)));
-
+        displayPotions(potions);
         displayMessage("Enter the number of the potion you want to use:");
         int userChoice = getUserInt();
         while (userChoice < 1 || userChoice > potions.size()) {
@@ -68,5 +49,4 @@ public class PotionView extends View {
 
         return userChoice - 1;
     }
-
 }

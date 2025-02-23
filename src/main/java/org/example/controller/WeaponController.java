@@ -19,12 +19,15 @@ public class  WeaponController {
     }
 
     public void createPredefinedWeapons() {
-        addWeapon(createWeapon("Helm of darkness", 65));
-        addWeapon(createWeapon("Aegis", 50));
-        addWeapon(createWeapon("Trident of Poseidon", 75));
-        addWeapon(createWeapon("Bow of Artemis", 60));
-        addWeapon(createWeapon("Caduceus", 50));
-        addWeapon(createWeapon("Thunderbolt of Zeus", 75));
+        addWeapon(createWeapon("Helm of darkness", 85));
+        addWeapon(createWeapon("Achilles' Spear", 80));
+        addWeapon(createWeapon("Aegis", 90));
+        addWeapon(createWeapon("Trident of Poseidon", 95));
+        addWeapon(createWeapon("Bow of Artemis", 80));
+        addWeapon(createWeapon("Caduceus", 75));
+        addWeapon(createWeapon("Thunderbolt of Zeus", 95));
+        addWeapon(createWeapon("Cronos' Scythe", 100));
+        addWeapon(createWeapon("Hades's Hairpin", 95));
     }
 
     public Weapon createWeapon(String name, int attackBonus) {

@@ -5,11 +5,11 @@ public class God extends Character{
         super(builder);
     }
 
-    public static class GodBuilder extends Builder<GodBuilder> {
-        @Override
-        protected GodBuilder self() {
-            return this;
-        }
+    public static class GodBuilder extends Builder {
+//        @Override
+//        protected GodBuilder self() {
+//            return this;
+//        }
         @Override
         public God build() {
             return new God(this);

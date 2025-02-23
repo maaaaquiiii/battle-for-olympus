@@ -37,7 +37,16 @@ public class Potion {
 
     @Override
     public String toString() {
-        return String.format("Name: %s\thealth boost: %d\tdefense boost: %d\n", getName(), getHealthBoost(), getDefenseBoost());
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: ").append(getName());
+        if (getHealthBoost() > 0) {
+            sb.append(" - Health Boost: ").append(getHealthBoost());
+        } if (getDefenseBoost() > 0) {
+            sb.append(" - Defense Boost: ").append(getDefenseBoost());
+        } if (sb.isEmpty()) {
+            sb.append(" - No boosts available.");
+        }
+        return sb.toString();
     }
 
     public static class Builder {

@@ -43,7 +43,7 @@ public class CombatView extends View {
         if (action == 1) {
             combatController.attack(attacker, defender);
         } else if (action == 2) {
-            int potionIndex = getPotionIndexFromUser(attacker);
+            int potionIndex = potionView.getPotionIndexFromUser();
             potionView.displayAssignedPotion(attacker, potionIndex);
             potionView.usePotion(attacker);
         } else if (action == 3) {
@@ -67,13 +67,6 @@ public class CombatView extends View {
         displayMessage("2. Use Potion");
         displayMessage("3. Equip Weapon");
         System.out.print("Enter your action (1-3): ");
-    }
-
-    private int getPotionIndexFromUser(Character character) {
-        //potionView.displayPotions(character.getPotions());
-        clearBuffer();
-//        displayMessage("Enter the number of the potion you want to use:");
-        return potionView.getPotionIndexFromUser();
     }
 
     private int getWeaponIndexFromUser() {

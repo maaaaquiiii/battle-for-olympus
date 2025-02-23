@@ -18,7 +18,7 @@ public abstract class Character {
     private final List<Potion> potions;
     private Weapon weapon;
 
-    protected Character(Builder<?> characterBuilder) {
+    protected Character(Builder characterBuilder) {
         this.name = characterBuilder.name;
         this.type = characterBuilder.type;
         this.health = characterBuilder.health;
@@ -81,8 +81,6 @@ public abstract class Character {
 
 
     public void setPotion(Potion potion) {
-        potions.add(potion);
-
         this.health += potion.getHealthBoost();
         this.defense += potion.getDefenseBoost();
     }
@@ -111,11 +109,13 @@ public abstract class Character {
 
     @Override
     public String toString() {
-        return String.format("Character: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\n",
-                getName(), getHealth(), getAttack(), getDefense(), getWeapon() == null ? "None" : getWeapon());
+        return String.format("Character: %s\thealth: %d\tattack: %d\tdefense: %d\tweapon: %s\nPotions:\n%s",
+                getName(), getHealth(), getAttack(), getDefense(),
+                getWeapon() == null ? "No weapon equipped" : getWeapon(),
+                getPotions().isEmpty() ? "No potions assigned" : getPotions().toString());
     }
 
-    public static abstract class Builder<T extends Builder<T>> {
+    public static abstract class Builder {
         private String name;
         private String type;
         private int health;
@@ -123,37 +123,36 @@ public abstract class Character {
         private int defense;
         private double luckPercentage;
 
-        public T name(String name) {
+        public Builder name(String name) {
             this.name = name;
-            return self();
+            return this;
         }
 
-        public T characterType(String type) {
+        public Builder characterType(String type) {
             this.type = type;
-            return self();
+            return this;
         }
 
-        public T health(int health) {
+        public Builder health(int health) {
             this.health = health;
-            return self();
+            return this;
         }
 
-        public T attack(int attack) {
+        public Builder attack(int attack) {
             this.attack = attack;
-            return self();
+            return this;
         }
 
-        public T defense(int defense) {
+        public Builder defense(int defense) {
             this.defense = defense;
-            return self();
+            return this;
         }
 
-        public T luckPercentage(double luckPercentage) {
+        public Builder luckPercentage(double luckPercentage) {
             this.luckPercentage = luckPercentage;
-            return self();
+            return this;
         }
 
-        protected abstract T self();
         public abstract Character build();
     }
 }

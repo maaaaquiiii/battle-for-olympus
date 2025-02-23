@@ -6,11 +6,11 @@ import java.util.List;
 
 public class CharacterView extends View {
     public void displayCharacterDetails(Character character) {
-        displayMessage("Character name: " + character.getName() + "\thealth: " + character.getHealth() + "\tattack: " + character.getAttack() + "\tdefense: " + character.getDefense());
+        displayMessage(character.toString());
         if(character.getWeapon() != null) {
             displayMessage("Weapon equipped: " + character.getWeapon().getName());
         }
-        showCharactersPotion(character);
+        //showCharactersPotion(character);
     }
 
     public void displayCharacterList(List<Character> characters) {
