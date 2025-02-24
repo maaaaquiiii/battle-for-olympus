@@ -85,38 +85,8 @@ public class Main {
         VIEW.displayMessage("Enter character's type (Animal, God, Hero, Human, Titan):");
         String type = VIEW.getUserString();
 
-        int health = 0;
-        while (health < 1000 || health > 9000) {
-            try {
-                VIEW.displayMessage("Enter character's health (between 1000 and 9000):");
-                health = VIEW.getUserInt();
-            } catch (NumberFormatException e) {
-                VIEW.displayMessage("Invalid input. Please enter a number.");
-            }
-        }
-
-        int attack = 0;
-        while (attack < 100 || attack > 200) {
-            try {
-                VIEW.displayMessage("Enter character's attack (between 100 and 200):");
-                attack = VIEW.getUserInt();
-            } catch (NumberFormatException e) {
-                VIEW.displayMessage("Invalid input. Please enter a number.");
-            }
-        }
-
-        int defense = 0;
-        while (defense < 5 || defense > 20) {
-            try {
-                VIEW.displayMessage("Enter character's defense (between 5 and 20):");
-                defense = VIEW.getUserInt();
-            } catch (NumberFormatException e) {
-                VIEW.displayMessage("Invalid input. Please enter a number.");
-            }
-        }
-
         try {
-            Character newCharacter = CHARACTER_CONTROLLER.createCharacter(name, type, health, attack, defense);
+            Character newCharacter = CHARACTER_CONTROLLER.createCharacter(name, type);
             CHARACTER_CONTROLLER.addCharacter(newCharacter);
             VIEW.displayMessage("Character created successfully!");
             return newCharacter;

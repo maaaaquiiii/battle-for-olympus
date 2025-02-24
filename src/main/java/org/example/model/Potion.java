@@ -59,7 +59,6 @@ public class Potion {
             return this;
         }
 
-
         public Builder healthBoost(int healthBoost) {
             this.healthBoost = healthBoost;
             return this;

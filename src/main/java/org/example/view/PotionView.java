@@ -30,7 +30,7 @@ public class PotionView extends View {
             int index = getUserInt() - 1;
             Potion potion = character.getPotions().get(index);
             potionController.usePotion(character, potion);
-            displayMessage(character.getName() + " drank " + potion);
+            displayMessage(character.getName() + " drank " + potion.getName());
         } else {
             displayMessage(character.getName() + " has decided to save the potion");
         }

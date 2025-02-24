@@ -16,7 +16,7 @@ public class CombatView extends View {
 
 
         displayMessage("Combat starts!");
-        displayMessage(character1.getName() + " will face the " + character2.getName());
+        displayMessage(character1.getName() + " will face " + character2.getName());
         while (character1.isAlive() && character2.isAlive()) {
             displayCharacterTurn(character1, character2);
             if(isRandom == true) {

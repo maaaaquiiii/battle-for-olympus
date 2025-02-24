@@ -6,10 +6,6 @@ public class God extends Character{
     }
 
     public static class GodBuilder extends Builder {
-//        @Override
-//        protected GodBuilder self() {
-//            return this;
-//        }
         @Override
         public God build() {
             return new God(this);

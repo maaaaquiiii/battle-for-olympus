@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class CharacterControllerTests {
@@ -25,8 +26,8 @@ public class CharacterControllerTests {
         Assertions.assertNotNull(centaur);
         Assertions.assertEquals("Centaur", centaur.getName());
         Assertions.assertEquals("animal", centaur.getType());
-        Assertions.assertEquals(3500, centaur.getHealth());
-        Assertions.assertEquals(100, centaur.getAttack());
+        Assertions.assertEquals(1750, centaur.getHealth());
+        Assertions.assertEquals(110, centaur.getAttack());
         Assertions.assertEquals(15, centaur.getDefense());
     }
 
@@ -36,10 +37,13 @@ public class CharacterControllerTests {
         Assertions.assertNotNull(found);
         Assertions.assertEquals("Thea", found.getName());
     }
+
     @Test
     void findCharacterByName_NotFound() {
-        Character found = characterController.findCharacterByName("Unknown");
-        Assertions.assertNull(found);
+//        Character found = characterController.findCharacterByName("Unknown");
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            characterController.findCharacterByName("Unknown");
+        });
     }
 
     @Test

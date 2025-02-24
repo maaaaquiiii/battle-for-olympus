@@ -42,7 +42,7 @@ public class CombatController {
 
         }
         attacker.attack(defender, damageMultiplier);
-        System.out.println(attacker.getName() + " attacks " + defender.getName() + " and deals " + attacker.getAttack() + " damage.");
+        System.out.println(attacker.getName() + " attacks " + defender.getName() + " and deals " + attacker.getAttack() * damageMultiplier + " damage.");
         System.out.println(defender.getName() + " now has " + defender.getHealth() + " health.");
     }
 

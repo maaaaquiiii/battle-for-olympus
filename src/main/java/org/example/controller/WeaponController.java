@@ -26,7 +26,7 @@ public class  WeaponController {
         addWeapon(createWeapon("Bow of Artemis", 80));
         addWeapon(createWeapon("Caduceus", 75));
         addWeapon(createWeapon("Thunderbolt of Zeus", 95));
-        addWeapon(createWeapon("Cronos' Scythe", 100));
+        addWeapon(createWeapon("Cronus' Scythe", 100));
         addWeapon(createWeapon("Hades's Hairpin", 95));
     }
 

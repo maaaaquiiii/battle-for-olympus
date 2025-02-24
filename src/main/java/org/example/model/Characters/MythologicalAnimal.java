@@ -6,10 +6,6 @@ public class MythologicalAnimal extends Character {
     }
 
     public static class MythologicalAnimalBuilder extends Builder {
-//        @Override
-//        protected MythologicalAnimalBuilder self() {
-//            return this;
-//        }
 
         @Override
         public Character build() {

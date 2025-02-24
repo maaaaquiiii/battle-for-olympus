@@ -6,11 +6,6 @@ public class Human extends Character {
     }
 
     public static class HumanBuilder extends Builder {
-//        @Override
-//        protected HumanBuilder self() {
-//            return this;
-//        }
-
         @Override
         public Character build() {
             return new Human(this);
