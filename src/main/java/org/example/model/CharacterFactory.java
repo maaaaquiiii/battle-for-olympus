@@ -20,7 +20,7 @@ public class CharacterFactory {
                     .health(2500)
                     .attack(130)
                     .defense(20)
-                    .luckPercentage(0.25)
+                    .luckPercentage(0.3)
                     .build();
             case "HERO" -> new Hero.HeroBuilder()
                     .name(name)
@@ -28,7 +28,7 @@ public class CharacterFactory {
                     .health(2250)
                     .attack(125)
                     .defense(15)
-                    .luckPercentage(0.15)
+                    .luckPercentage(0.25)
                     .build();
             case "TITAN" -> new Titan.TitanBuilder()
                     .name(name)
@@ -36,7 +36,7 @@ public class CharacterFactory {
                     .health(3000)
                     .attack(135)
                     .defense(20)
-                    .luckPercentage(0.3)
+                    .luckPercentage(0.35)
                     .build();
             default -> new Human.HumanBuilder()
                     .name(name)

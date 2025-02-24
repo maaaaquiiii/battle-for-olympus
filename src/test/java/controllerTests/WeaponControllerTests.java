@@ -16,7 +16,7 @@ public class WeaponControllerTests {
     @BeforeEach
     void setUp() {
         weaponController = new WeaponController();
-        character = CharacterFactory.createCharacter("Hermes", "god", 4500, 30, 10);
+        character = CharacterFactory.createCharacter("Hermes", "god");
         weapon = weaponController.createWeapon("Helm of darkness", 65);
     }
 

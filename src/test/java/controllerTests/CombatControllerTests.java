@@ -16,8 +16,8 @@ public class CombatControllerTests {
     @BeforeEach
     void setUp() {
         combatController = new CombatController();
-        attacker = CharacterFactory.createCharacter("Zeus", "god", 6000, 125, 20);
-        defender = CharacterFactory.createCharacter("Hades", "god", 5500, 135, 20);
+        attacker = CharacterFactory.createCharacter("Zeus", "god");
+        defender = CharacterFactory.createCharacter("Hades", "god");
     }
 
     @Test

@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 
 public class PotionControllerTests {
     private PotionController potionController;
-    private Potion potion;
     private Character character;
+
 
     @BeforeEach
     void setUp() {
         potionController = new PotionController();
-        character = CharacterFactory.createCharacter("Hermes", "god", 4500, 30, 10);
+        character = CharacterFactory.createCharacter("Hermes", "god");
     }
 
     @Test
