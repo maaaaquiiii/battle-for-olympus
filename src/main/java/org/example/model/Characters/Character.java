@@ -3,10 +3,8 @@ package org.example.model.Characters;
 import org.example.model.Potion;
 import org.example.model.Weapon;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public abstract class Character {
     private final String name;

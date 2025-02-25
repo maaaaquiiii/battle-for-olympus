@@ -6,11 +6,6 @@ public class Titan extends Character {
     }
 
     public static class TitanBuilder extends Builder {
-//        @Override
-//        protected TitanBuilder self() {
-//            return this;
-//        }
-
         @Override
         public Character build() {
             return new Titan(this);

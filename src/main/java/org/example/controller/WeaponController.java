@@ -21,6 +21,7 @@ public class  WeaponController {
     public void createPredefinedWeapons() {
         addWeapon(createWeapon("Helm of darkness", 85));
         addWeapon(createWeapon("Achilles' Spear", 80));
+
         addWeapon(createWeapon("Aegis", 90));
         addWeapon(createWeapon("Trident of Poseidon", 95));
         addWeapon(createWeapon("Bow of Artemis", 80));

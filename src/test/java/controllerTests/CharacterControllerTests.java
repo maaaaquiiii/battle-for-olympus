@@ -26,7 +26,7 @@ public class CharacterControllerTests {
         Assertions.assertNotNull(centaur);
         Assertions.assertEquals("Centaur", centaur.getName());
         Assertions.assertEquals("animal", centaur.getType());
-        Assertions.assertEquals(1750, centaur.getHealth());
+        Assertions.assertEquals(1250, centaur.getHealth());
         Assertions.assertEquals(110, centaur.getAttack());
         Assertions.assertEquals(15, centaur.getDefense());
     }

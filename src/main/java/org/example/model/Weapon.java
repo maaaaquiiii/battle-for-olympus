@@ -1,7 +1,5 @@
 package org.example.model;
 
-import java.util.Objects;
-
 public class Weapon {
     private String name;
     private int attackBonus;

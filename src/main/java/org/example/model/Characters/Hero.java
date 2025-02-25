@@ -6,10 +6,6 @@ public class Hero extends Character {
     }
 
     public static class HeroBuilder extends Builder {
-//        @Override
-//        protected HeroBuilder self() {
-//            return this;
-//        }
         @Override
         public Hero build() {
             return new Hero(this);

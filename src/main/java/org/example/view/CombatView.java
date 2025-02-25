@@ -14,15 +14,16 @@ public class CombatView extends View {
         displayMessage("For the second character, do you want it to be against the machine (random) or against another player (manual)? (true -> random, false -> manual)");
         boolean isRandom = getUserBoolean();
 
-
         displayMessage("Combat starts!");
         displayMessage(character1.getName() + " will face " + character2.getName());
         while (character1.isAlive() && character2.isAlive()) {
             displayCharacterTurn(character1, character2);
-            if(isRandom == true) {
-                displayRandomCharacterTurn(character2, character1);
-            } else {
-                displayCharacterTurn(character2, character1);
+            if(character2.isAlive()) {
+                if(isRandom == true) {
+                    displayRandomCharacterTurn(character2, character1);
+                } else {
+                    displayCharacterTurn(character2, character1);
+                }
             }
         }
         if(character1.isAlive() && !character2.isAlive()) {
@@ -74,7 +75,6 @@ public class CombatView extends View {
         displayMessage("Choose a weapon from the following list:");
         return weaponView.getWeaponIndexFromUser();
     }
-
 
     private void displayCombatState(Character character) {
         displayMessage("--------------------------");
